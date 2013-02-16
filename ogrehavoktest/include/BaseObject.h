@@ -2,14 +2,17 @@
 #define BASEOBJECT_H
 #include "stdafx.h"
 #include "BaseApplication.h"
-#include"Physics.h"
-
-using namespace Ogre;
+#include "Physics.h"
 
 class BaseObject
 {
 protected:
+	bool Alive;
+	Ogre::Vector3 mPosition;
 public:
-	virtual void Update() = 0;
+	BaseObject();
+	~BaseObject();
+	virtual void Update();
+	virtual void OnDeath();
 };
 #endif
