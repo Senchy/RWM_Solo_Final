@@ -64,7 +64,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <FloatingPointModel>Fast</FloatingPointModel>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <AdditionalOptions>-Zm145 %(AdditionalOptions)</AdditionalOptions>
@@ -127,15 +127,24 @@
   <ItemGroup>
     <ClCompile Include="src\BaseApplication.cpp" />
     <ClCompile Include="src\BaseObject.cpp" />
-    <ClCompile Include="src\Level.cpp" />
+    <ClCompile Include="src\DynamicObject.cpp" />
+    <ClCompile Include="src\Floor.cpp" />
+    <ClCompile Include="src\InteractiveFloor.cpp" />
+    <ClCompile Include="src\InteractiveWall.cpp" />
     <ClCompile Include="src\ogrehavoktest.cpp" />
     <ClCompile Include="src\Physics.cpp" />
+    <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\PortalGun.cpp" />
     <ClCompile Include="src\SoundManager.cpp" />
+    <ClCompile Include="src\StaticObject.cpp" />
+    <ClCompile Include="src\Wall.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\BaseApplication.h" />
     <ClInclude Include="include\BaseObject.h" />
+    <ClInclude Include="include\DynamicObject.h" />
+    <ClInclude Include="include\Floor.h" />
     <ClInclude Include="include\fmod.h" />
     <ClInclude Include="include\fmod.hpp" />
     <ClInclude Include="include\fmod_codec.h" />
@@ -143,10 +152,16 @@
     <ClInclude Include="include\fmod_errors.h" />
     <ClInclude Include="include\fmod_memoryinfo.h" />
     <ClInclude Include="include\Havok.h" />
-    <ClInclude Include="include\Level.h" />
+    <ClInclude Include="include\InteractiveFloor.h" />
+    <ClInclude Include="include\InteractiveWall.h" />
     <ClInclude Include="include\ogrehavoktest.h" />
     <ClInclude Include="include\Physics.h" />
+    <ClInclude Include="include\Player.h" />
+    <ClInclude Include="include\Portal.h" />
+    <ClInclude Include="include\PortalGun.h" />
     <ClInclude Include="include\SoundManager.h" />
+    <ClInclude Include="include\StaticObject.h" />
+    <ClInclude Include="include\Wall.h" />
     <ClInclude Include="res\Resource.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

@@ -49,42 +49,12 @@ void ogrehavoktest::createScene(void)
 	physics.SetUp(); //perform havok initialisation stuff
 
 
-
-
-	////plane created
-	hkVector4 groundBox( 200.0f, 2.0f, 200.0f );
-		hkVector4 position( 0.0f, -100.0f, 0.0f );
-		hkpConvexShape* shape = new hkpBoxShape( groundBox , 0 );
-
-		hkpRigidBodyCinfo ci; //rigidbody class info; sets properties of rigid body
-
-		ci.m_shape = shape;
-		ci.m_motionType = hkpMotion::MOTION_FIXED;
-		ci.m_position = position;
-		ci.m_qualityType = HK_COLLIDABLE_QUALITY_FIXED;  //floor shouldn't move
-		ci.m_restitution=1.0;
-		ci.m_friction=0.8;
-
-		hkpRigidBody* floor=new hkpRigidBody( ci );
-		physics.GetPhysicsWorld()->addEntity( floor );
-		
-		floor->removeReference(); 
-		shape->removeReference();
-
-
-	Ogre::MeshPtr p =Ogre::MeshManager::getSingleton().createPlane("GroundPlane", 
-		Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, 
-		Ogre::Plane(Ogre::Vector3(0.0,1.0,0.0),
-			Ogre::Vector3(position(0),position(1),position(2)))
-		,400,400,20,20,true, 1,1.0f,1.0f,Vector3::UNIT_X);
-
-	Ogre::SceneNode* planeNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-    Ogre::Entity* entGround = mSceneMgr->createEntity("Viewer_ZXPlane","GroundPlane");
-	entGround->setMaterialName("Examples/Rockwall");
-    entGround->setCastShadows(false);
-	
-	planeNode->attachObject(entGround);
-	/////end plane////////
+	mPlayer = new Player(Ogre::Vector3(0,100,0),mSceneMgr,&physics,mKeyboard,mCamera);
+	mFloor = new Floor(Ogre::Vector3(0,0,0), Ogre::Vector3(1000,0,600),&physics, mSceneMgr);
+	mWalls.push_back(new Wall(Ogre::Vector3(0,50,300), Ogre::Vector3(1000,100,0),&physics, mSceneMgr, 0));
+	mWalls.push_back(new Wall(Ogre::Vector3(0,50,-300), Ogre::Vector3(1000,100,0),&physics, mSceneMgr, 0));
+	mWalls.push_back(new Wall(Ogre::Vector3(500,50,0), Ogre::Vector3(600,100,0),&physics, mSceneMgr, 90));
+	mWalls.push_back(new Wall(Ogre::Vector3(-500,50,0), Ogre::Vector3(600,100,0),&physics, mSceneMgr, 90));
 
 	mSceneMgr->setSkyDome(true, "Examples/CloudySky",5,8);
 	
@@ -96,7 +66,7 @@ void ogrehavoktest::destroyScene(void){
 }
 
 bool ogrehavoktest::frameRenderingQueued(const Ogre::FrameEvent& evt){
-
+	mPlayer->Update();
 	physics.Simulate(evt.timeSinceLastFrame*3);
 	return BaseApplication::frameRenderingQueued(evt); 
 }
