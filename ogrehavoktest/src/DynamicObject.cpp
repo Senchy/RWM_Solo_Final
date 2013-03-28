@@ -15,6 +15,7 @@ DynamicObject::DynamicObject(Ogre::Vector3 position, std::string Mesh,  Ogre::Ve
 	////INIT Ogre Scene Object
 
 	ObjectEnt = mManager->createEntity(EntityName, Mesh);
+	ObjectEnt->setCastShadows(false);
 	ObjectNode = mManager->getRootSceneNode()->createChildSceneNode(SceneName);
 	ObjectNode->setPosition(mPosition);
 	ObjectNode->setOrientation(orintation);

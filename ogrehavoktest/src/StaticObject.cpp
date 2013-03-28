@@ -18,6 +18,7 @@ StaticObject::StaticObject(Ogre::Vector3 Pos, Ogre::Vector3 size,  std::string m
 	
 	////INIT Ogre Scene Object
 	ObjectEnt = mManager->createEntity(EntityName, meshname);
+	ObjectEnt->setCastShadows(false);
 	ObjectNode = mManager->getRootSceneNode()->createChildSceneNode(SceneName);
 	ObjectNode->setPosition(mPosition);
 	ObjectNode->setOrientation(mOrintation);

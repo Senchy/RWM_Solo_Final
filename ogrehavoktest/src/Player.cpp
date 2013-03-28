@@ -32,7 +32,7 @@ Player::Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* phy
 	ObjectInfo.m_restitution =				0.1;
 	ObjectInfo.m_qualityType =				HK_COLLIDABLE_QUALITY_BULLET;//for fast objects
 	Body =									new hkpRigidBody( ObjectInfo );
-	
+
 	ObjectInfo.m_shape->removeReference();
 
 	mPhysicsManager->GetPhysicsWorld()->addEntity( Body );

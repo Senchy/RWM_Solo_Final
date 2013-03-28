@@ -49,7 +49,7 @@ void ogrehavoktest::createScene(void)
 	physics.SetUp(); //perform havok initialisation stuff
 
 
-	mPlayer = new Player(Ogre::Vector3(0,100,0),mSceneMgr,&physics,mKeyboard,mCamera);
+	mPlayer = new Player(Ogre::Vector3(0,20,0),mSceneMgr,&physics,mKeyboard,mCamera);
 	mFloor = new Floor(Ogre::Vector3(0,0,0), Ogre::Vector3(1000,0,600),&physics, mSceneMgr);
 	mWalls.push_back(new Wall(Ogre::Vector3(0,50,300), Ogre::Vector3(1000,100,0),&physics, mSceneMgr, 0));
 	mWalls.push_back(new Wall(Ogre::Vector3(0,50,-300), Ogre::Vector3(1000,100,0),&physics, mSceneMgr, 0));
