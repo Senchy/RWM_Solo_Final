@@ -134,6 +134,7 @@
     <ClCompile Include="src\ogrehavoktest.cpp" />
     <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\Portal.cpp" />
     <ClCompile Include="src\PortalGun.cpp" />
     <ClCompile Include="src\SoundManager.cpp" />
     <ClCompile Include="src\StaticObject.cpp" />

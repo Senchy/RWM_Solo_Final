@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "DynamicObject.h"
+#include "PortalGun.h"
 #include "Physics\Dynamics\Collide\ContactListener\hkpContactListener.h"
 
 class Player :	public DynamicObject
@@ -13,6 +14,7 @@ private:
 	float					mSpeed;
 	hkReal					mJumpForce;
 	float					mCameraOffset;
+	PortalGun *				mGun;
 public:
 	bool					IsOnGround;
 	Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* physicsManager,OIS::Keyboard * Keyboard, Ogre::Camera* camera );

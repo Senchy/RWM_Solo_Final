@@ -14,6 +14,7 @@ Player::Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* phy
 		mCameraOffset(40),
 		IsOnGround(true)
 {
+	mGun = new PortalGun(mManager,mPhysicsManager,mCamera);
 	const hkReal radius =					10.0f;
 	const hkReal sphereMass =				200.0f;
 	hkpRigidBodyCinfo						ObjectInfo;
@@ -47,6 +48,7 @@ Player::~Player()
 void Player::Update()
 {
 	DynamicObject::Update();
+	mGun->Update();
 	Ogre::Vector3 MoveDir = mCamera->getDirection();
 	MoveDir = Ogre::Vector3(MoveDir.x,0, MoveDir.z);
 	MoveDir = MoveDir.normalisedCopy();

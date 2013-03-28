@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "StaticObject.h"
 
-class Portal : public StaticObject
+class Portal
 {
 private:
 public:

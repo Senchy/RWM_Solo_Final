@@ -11,7 +11,7 @@ private:
 	Ogre::Camera*			mCamera;
 	Portal*					Portals [2]; 
 public:
-	PortalGun(Ogre::Vector3 position, Ogre::Vector3 size, Ogre::Quaternion orintation, Ogre::SceneManager* manager, Physics* physicsManager, Ogre::Camera* camera);
+	PortalGun(Ogre::SceneManager* manager, Physics* physicsManager, Ogre::Camera* camera);
 	~PortalGun();
 	void Update();
 };

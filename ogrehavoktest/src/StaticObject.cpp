@@ -20,6 +20,7 @@ StaticObject::StaticObject(Ogre::Vector3 Pos, Ogre::Vector3 size,  std::string m
 	ObjectEnt = mManager->createEntity(EntityName, meshname);
 	ObjectNode = mManager->getRootSceneNode()->createChildSceneNode(SceneName);
 	ObjectNode->setPosition(mPosition);
+	ObjectNode->setOrientation(mOrintation);
 	ObjectNode->attachObject(ObjectEnt);
 }
 
