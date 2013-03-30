@@ -9,11 +9,8 @@ PortalGun::PortalGun(Ogre::SceneManager* manager, Physics* physicsManager, Ogre:
 					physicsManager), 
 				mCamera(camera),
 				mPortalTracker(true)
+
 {
-	mPortals[0] = new Portal(Ogre::Vector3(100,100,100),mPhysicsManager, mManager);
-	mPortals[1] = new Portal(Ogre::Vector3(100,100,100),mPhysicsManager, mManager);
-	mPortals[0]->SetOtherPortal(mPortals[1]);
-	mPortals[1]->SetOtherPortal(mPortals[0]);
 	////INIT Ogre Scene Names
 	mStream << ObjectNumber;
 	ObjectNumber++;
@@ -32,6 +29,13 @@ PortalGun::PortalGun(Ogre::SceneManager* manager, Physics* physicsManager, Ogre:
 	ObjectNode->setScale(mSize);
 	ObjectNode->attachObject(ObjectEnt);
 }
+void PortalGun::SetPortals(Portal* portals[])
+{
+	mPortals[0] = portals[0];
+	mPortals[1] = portals[1];
+	mPortals[0]->SetOtherPortal(mPortals[1]);
+	mPortals[1]->SetOtherPortal(mPortals[0]);
+}
 PortalGun::~PortalGun()
 {
 }
@@ -39,22 +43,11 @@ void PortalGun::Update()
 {
 	Ogre::Vector3 GunOffset = mCamera->getDirection().normalisedCopy();
 	Ogre::Vector3 DownOffset = mCamera->getOrientation() * Ogre::Vector3::NEGATIVE_UNIT_Y;
-	/*Ogre::Radian SavedYaw = mCamera->getOrientation().getYaw();
-	Ogre::Radian SavedPitch = mCamera->getOrientation().getPitch();*/
 	mPosition = Ogre::Vector3(mCamera->getPosition().x + (GunOffset.x * 10) + (DownOffset.x * 4), mCamera->getPosition().y + (GunOffset.y * 10)  + (DownOffset.y * 4), mCamera->getPosition().z + (GunOffset.z * 10) + (DownOffset.z * 4));
 	ObjectNode->setOrientation(mCamera->getOrientation());
-	//if(SavedPitch < Ogre::Radian(Ogre::Degree(-35)))
-	//{
-	//	mCamera->setOrientation(Ogre::Quaternion(Ogre::Radian(Ogre::Degree(-35)), Ogre::Vector3(1,0,0)));
-	//	mCamera->yaw(SavedYaw);
-	//}
-	//else if(SavedPitch > Ogre::Radian(Ogre::Degree(45)))
-	//{
-	//	mCamera->setOrientation(Ogre::Quaternion(Ogre::Radian(Ogre::Degree(45)), Ogre::Vector3(1,0,0)));
-	//	mCamera->yaw(SavedYaw);
-	//}
 	ObjectNode->setPosition(mPosition);
 }
+
 bool PortalGun::ShootGun()
 {
 	hkpWorldRayCastInput ray;

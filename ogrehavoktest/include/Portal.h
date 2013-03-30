@@ -4,19 +4,20 @@
 #include "stdafx.h"
 #include "StaticObject.h"
 
-class Portal : StaticObject
+class Portal : public StaticObject
 {
 private:
 	bool					mActive;
 	Portal*					mOtherPortal;
 	Ogre::Vector3			mDirection;
+	hkReal					mRadius;
 public:
 	Portal(Ogre::Vector3 Pos, Physics * physics, Ogre::SceneManager * manager);
 	void SetPosition(Ogre::Vector3 Pos, Ogre::Vector3 WallNormal);
-	void SetPlayerOnContact(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity, float Size);
+	bool SetPlayerOnContact(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity);
+	bool Transport(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity);
 	void SetOtherPortal(Portal* portal);
 	void SetColor(std::string meshname);
-	void Transport(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity, float Size);
 	~Portal();
 };
 #endif

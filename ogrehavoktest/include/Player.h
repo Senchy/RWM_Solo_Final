@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "DynamicObject.h"
 #include "PortalGun.h"
+#include "Portal.h"
 #include <Physics/Collide/Query/CastUtil/hkpWorldRayCastInput.h>         
 #include <Physics/Collide/Query/CastUtil/hkpWorldRayCastOutput.h>    
 #include <Physics/Collide/Query/Collector/RayCollector/hkpAllRayHitCollector.h>
@@ -25,6 +26,7 @@ public:
 	Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* physicsManager,OIS::Keyboard * Keyboard, Ogre::Camera* camera );
 	void CheckIfPickUpOBject();
 	void HoldObject();
+	void INITPortalGun(Portal* portals[]);
 	void CheckIfOnGround();
 	virtual ~Player();
 	virtual void Update();

@@ -17,6 +17,7 @@ private:
 public:
 	PortalGun(Ogre::SceneManager* manager, Physics* physicsManager, Ogre::Camera* camera);
 	~PortalGun();
+	void SetPortals(Portal* portals[]);
 	void Update();
 	bool ShootGun();
 };

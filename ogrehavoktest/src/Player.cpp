@@ -42,6 +42,10 @@ Player::Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* phy
 	PlayerCollision* CollisionListener =	new PlayerCollision();
 	Body->addContactListener(CollisionListener);
 }
+void Player::INITPortalGun(Portal* portals[])
+{
+	mGun->SetPortals(portals);
+}
 Player::~Player()
 {
 }

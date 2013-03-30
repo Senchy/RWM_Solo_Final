@@ -17,16 +17,15 @@ protected:
 	/// World Variables
 	Ogre::SceneManager*			mManager;
 	Physics*					mPhysicsManager;
-	
-	/// Physics Variables
-	hkpRigidBody*				Body;
+
 
 	/// Ogre Variables
-	Ogre::SceneNode*			ObjectNode;
 	Ogre::Entity*				ObjectEnt;
 	std::ostringstream			mStream;
 
 public:
+	hkpRigidBody*				Body;
+	Ogre::SceneNode*			ObjectNode;
 	BaseObject(Ogre::Vector3 position, Ogre::Vector3 size, Ogre::Quaternion orintation, Ogre::SceneManager* manager, Physics* physicsManager);
 	virtual ~BaseObject();
 };
