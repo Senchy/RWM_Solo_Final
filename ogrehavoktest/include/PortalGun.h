@@ -4,6 +4,9 @@
 #include "stdafx.h"
 #include "BaseObject.h"
 #include "Portal.h"
+#include <Physics/Collide/Query/CastUtil/hkpWorldRayCastInput.h>         
+#include <Physics/Collide/Query/CastUtil/hkpWorldRayCastOutput.h>    
+#include <Physics/Collide/Query/Collector/RayCollector/hkpAllRayHitCollector.h>
 
 class PortalGun : public BaseObject
 {

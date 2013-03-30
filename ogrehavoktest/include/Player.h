@@ -4,11 +4,15 @@
 #include "stdafx.h"
 #include "DynamicObject.h"
 #include "PortalGun.h"
+#include <Physics/Collide/Query/CastUtil/hkpWorldRayCastInput.h>         
+#include <Physics/Collide/Query/CastUtil/hkpWorldRayCastOutput.h>    
+#include <Physics/Collide/Query/Collector/RayCollector/hkpAllRayHitCollector.h>
 #include "Physics\Dynamics\Collide\ContactListener\hkpContactListener.h"
 
 class Player :	public DynamicObject
 {
 private:
+	int						mFireTimeOut;
 	Ogre::Camera*			mCamera;
 	OIS::Keyboard *			mKeyboard;
 	float					mSpeed;
@@ -16,8 +20,12 @@ private:
 	float					mCameraOffset;
 	PortalGun *				mGun;
 public:
+	bool					HoldingObject;
 	bool					IsOnGround;
 	Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* physicsManager,OIS::Keyboard * Keyboard, Ogre::Camera* camera );
+	void CheckIfPickUpOBject();
+	void HoldObject();
+	void CheckIfOnGround();
 	virtual ~Player();
 	virtual void Update();
 	virtual void OnDeath();

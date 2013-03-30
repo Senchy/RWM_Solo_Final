@@ -10,8 +10,8 @@ PortalGun::PortalGun(Ogre::SceneManager* manager, Physics* physicsManager, Ogre:
 				mCamera(camera),
 				mPortalTracker(true)
 {
-	mPortals[0] = new Portal(Ogre::Vector3(-1000,-1000,-1000),mPhysicsManager, mManager);
-	mPortals[1] = new Portal(Ogre::Vector3(-1000,-1000,-1000),mPhysicsManager, mManager);
+	mPortals[0] = new Portal(Ogre::Vector3(100,100,100),mPhysicsManager, mManager);
+	mPortals[1] = new Portal(Ogre::Vector3(100,100,100),mPhysicsManager, mManager);
 	mPortals[0]->SetOtherPortal(mPortals[1]);
 	mPortals[1]->SetOtherPortal(mPortals[0]);
 	////INIT Ogre Scene Names
@@ -57,13 +57,40 @@ void PortalGun::Update()
 }
 bool PortalGun::ShootGun()
 {
-	if(mPortalTracker)
+	hkpWorldRayCastInput ray;
+	ray.m_from =  hkVector4(mCamera->getPosition().x + mCamera->getDirection().x * 10,
+							mCamera->getPosition().y + mCamera->getDirection().y * 10, 
+							mCamera->getPosition().z + mCamera->getDirection().z * 10);
+    ray.m_to = hkVector4(mCamera->getPosition().x + mCamera->getDirection().x * 1010,
+						mCamera->getPosition().y + mCamera->getDirection().y  * 1010,
+						mCamera->getPosition().z + mCamera->getDirection().z * 1010);
+	hkpWorldRayCastOutput OutPut;
+	mPhysicsManager->GetPhysicsWorld()->castRay(ray,OutPut);
+	if(OutPut.m_hitFraction < 1.0f)
 	{
-		mPortalTracker = false;
+		const hkpCollidable* col = OutPut.m_rootCollidable;
+		hkpRigidBody* body = hkpGetRigidBody(col);
+
+		if(body->getUserData() == 2)
+		{
+			if(mPortalTracker)
+			{
+				mPortals[0]->SetPosition(Ogre::Vector3(mCamera->getPosition().x + (mCamera->getDirection().x * 10) + (mCamera->getDirection().x *( 1000 * OutPut.m_hitFraction)) ,
+														mCamera->getPosition().y + (mCamera->getDirection().y * 10) + (mCamera->getDirection().y *( 1000 * OutPut.m_hitFraction))  ,
+														mCamera->getPosition().z + (mCamera->getDirection().z * 10) + (mCamera->getDirection().z *( 1000 * OutPut.m_hitFraction))),
+											Ogre::Vector3(OutPut.m_normal(0),OutPut.m_normal(1),OutPut.m_normal(2)));
+				mPortalTracker = false;
+			}
+			else
+			{
+				mPortals[1]->SetPosition(Ogre::Vector3(mCamera->getPosition().x + (mCamera->getDirection().x * 10) + (mCamera->getDirection().x *( 1000 * OutPut.m_hitFraction)) ,
+														mCamera->getPosition().y + (mCamera->getDirection().y * 10) + (mCamera->getDirection().y *( 1000 * OutPut.m_hitFraction))  ,
+														mCamera->getPosition().z + (mCamera->getDirection().z * 10) + (mCamera->getDirection().z *( 1000 * OutPut.m_hitFraction))),
+											Ogre::Vector3(OutPut.m_normal(0),OutPut.m_normal(1),OutPut.m_normal(2)));
+				mPortalTracker = true;
+			}
+		}
 	}
-	else
-	{
-		mPortalTracker = true;
-	}
+
 	return false;
 }

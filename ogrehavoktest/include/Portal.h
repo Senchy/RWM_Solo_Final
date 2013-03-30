@@ -13,9 +13,10 @@ private:
 public:
 	Portal(Ogre::Vector3 Pos, Physics * physics, Ogre::SceneManager * manager);
 	void SetPosition(Ogre::Vector3 Pos, Ogre::Vector3 WallNormal);
-	Ogre::Vector3 SetPlayerOnContact(Ogre::Vector3 Pos, Ogre::Vector3 Velocity, float Size);
+	void SetPlayerOnContact(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity, float Size);
 	void SetOtherPortal(Portal* portal);
-	Ogre::Vector3 Transport(Ogre::Vector3 Pos, Ogre::Vector3 Velocity, float Size);
+	void SetColor(std::string meshname);
+	void Transport(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity, float Size);
 	~Portal();
 };
 #endif

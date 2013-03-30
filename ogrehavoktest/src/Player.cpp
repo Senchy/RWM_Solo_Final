@@ -12,6 +12,7 @@ Player::Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* phy
 		mCamera(camera),
 		mJumpForce(1000.0f),
 		mCameraOffset(40),
+		mFireTimeOut(200),
 		IsOnGround(true)
 {
 	mGun = new PortalGun(mManager,mPhysicsManager,mCamera);
@@ -21,7 +22,6 @@ Player::Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* phy
 	hkMassProperties						massProperties;
 	hkpInertiaTensorComputer::computeSphereVolumeMassProperties(
 		radius, sphereMass, massProperties);
-
 	ObjectInfo.m_mass =						massProperties.m_mass;
 	ObjectInfo.m_centerOfMass  =			massProperties.m_centerOfMass;
 	ObjectInfo.m_inertiaTensor =			massProperties.m_inertiaTensor;
@@ -32,7 +32,7 @@ Player::Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* phy
 	ObjectInfo.m_restitution =				0.1;
 	ObjectInfo.m_qualityType =				HK_COLLIDABLE_QUALITY_BULLET;//for fast objects
 	Body =									new hkpRigidBody( ObjectInfo );
-
+	Body->setUserData(0);
 	ObjectInfo.m_shape->removeReference();
 
 	mPhysicsManager->GetPhysicsWorld()->addEntity( Body );
@@ -49,6 +49,7 @@ void Player::Update()
 {
 	DynamicObject::Update();
 	mGun->Update();
+	CheckIfOnGround();
 	Ogre::Vector3 MoveDir = mCamera->getDirection();
 	MoveDir = Ogre::Vector3(MoveDir.x,0, MoveDir.z);
 	MoveDir = MoveDir.normalisedCopy();
@@ -73,7 +74,7 @@ void Player::Update()
 	{	
 		Body->setLinearVelocity( hkVector4(0, Body->getLinearVelocity()(1), 0));
 	}
-	if(IsOnGround == false)
+	if(IsOnGround == true)
 	{
 		if (mKeyboard->isKeyDown(OIS::KC_SPACE))
 		{
@@ -81,7 +82,76 @@ void Player::Update()
 			IsOnGround = false;
 		}
 	}
+	if(HoldingObject == true)
+	{
+		if(mKeyboard->isKeyDown(OIS::KC_E))
+		{
+			/*
+			drop object Code
+			*/
+		}
+	}
+	else
+	{
+		if(mKeyboard->isKeyDown(OIS::KC_E))
+		{
+			CheckIfPickUpOBject();
+			/*
+			pick Up object
+			*/
+		}
+	}
+	if(mKeyboard->isKeyDown(OIS::KC_Q))
+	{
+		if(mFireTimeOut > 500)
+		{
+			mGun->ShootGun();
+			mFireTimeOut = 0;
+		}
+	}
+	mFireTimeOut++;
 	mCamera->setPosition(Ogre::Vector3(ObjectNode->getPosition().x, ObjectNode->getPosition().y + mCameraOffset, ObjectNode->getPosition().z));
+}
+void Player::CheckIfOnGround()
+{
+	hkpWorldRayCastInput ray;
+	ray.m_from = hkVector4(ObjectNode->getPosition().x,ObjectNode->getPosition().y- 5,ObjectNode->getPosition().z);
+    ray.m_to = hkVector4(ObjectNode->getPosition().x,ObjectNode->getPosition().y - 12,ObjectNode->getPosition().z);
+	hkpWorldRayCastOutput OutPut;
+	mPhysicsManager->GetPhysicsWorld()->castRay(ray,OutPut);
+	if(OutPut.m_hitFraction < 1.0f)
+	{
+		IsOnGround = true;
+	}
+	else
+	{
+		IsOnGround = false;
+	}
+
+}
+void Player::CheckIfPickUpOBject()
+{
+	hkpWorldRayCastInput ray;
+	ray.m_from = hkVector4(mCamera->getDirection().x * 10,mCamera->getDirection().y * 10,mCamera->getDirection().z * 10);
+    ray.m_to = hkVector4(mCamera->getDirection().x * 60,mCamera->getDirection().y  * 60,mCamera->getDirection().z * 60);
+	hkpWorldRayCastOutput OutPut;
+	mPhysicsManager->GetPhysicsWorld()->castRay(ray,OutPut);
+	if(OutPut.hasHit())
+	{
+		const hkpCollidable* col = OutPut.m_rootCollidable;
+		hkpRigidBody* body = hkpGetRigidBody(col);
+
+		if(body->getUserData() == 1)
+		{
+			/*
+			get the object so i can pick it up
+			*/
+		}
+
+	}
+}
+void Player::HoldObject()
+{
 }
 void Player::OnDeath()
 {

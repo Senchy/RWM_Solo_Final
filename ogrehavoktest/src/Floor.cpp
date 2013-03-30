@@ -27,7 +27,7 @@ Floor::Floor(Ogre::Vector3 Pos, Ogre::Vector3 size, Physics * physics, Ogre::Sce
 	FloorInfo.m_rotation =					hkQuaternion(mOrintation.x, mOrintation.y, mOrintation.z, mOrintation.w);
 	FloorInfo.m_position = 					hkVector4(mPosition.x,mPosition.y,mPosition.z);
 	Body =									new hkpRigidBody(FloorInfo);
-
+	Body->setUserData(2);
 	mPhysicsManager->GetPhysicsWorld()->addEntity(Body);
 	ObjectNode->setScale(mSize.x / ObjectEnt->getBoundingBox().getSize().x,
 		mSize.y / ObjectEnt->getBoundingBox().getSize().y, mSize.z / ObjectEnt->getBoundingBox().getSize().z);
