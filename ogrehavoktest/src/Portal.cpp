@@ -8,11 +8,9 @@ Portal::Portal(Ogre::Vector3 Pos,Physics * physics, Ogre::SceneManager * manager
 		mOtherPortal(NULL),
 		mRadius(22.0f)
 {
-	
 	ObjectEnt->setMaterialName("Examples/WaterStream");
 	ObjectNode->setScale(Ogre::Vector3(2.6 * mRadius / ObjectEnt->getBoundingRadius(),
 						0.6, 1.8 * mRadius / ObjectEnt->getBoundingRadius()));
-	
 }
 
 void Portal::SetOtherPortal(Portal* portal)
@@ -29,9 +27,13 @@ void Portal::SetPosition(Ogre::Vector3 Pos, Ogre::Vector3 WallNormal)
 	ObjectNode->setPosition(Pos);
 	ObjectNode->setOrientation(1,WallNormal.z,WallNormal.y,-WallNormal.x);
 	mDirection = ObjectNode->getOrientation() * Ogre::Vector3::UNIT_Y;
+	if(WallNormal.y == -1)
+	{
+		mDirection.y *=-1;
+	}
 	mActive = true;
 }
-bool Portal::SetPlayerOnContact(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity)
+bool Portal::SetPlayerOnContact(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity, Ogre::Quaternion &Direction)
 {
 	Ogre::Vector3 Distance = mPosition - Pos;
 	if(Distance.length() < 2 * mRadius)
@@ -40,13 +42,13 @@ bool Portal::SetPlayerOnContact(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity)
 		{
 			if(Velocity.normalisedCopy().directionEquals(-mDirection, Ogre::Degree(10)))
 			{
-				return mOtherPortal->Transport(Pos,Velocity);
+				return mOtherPortal->Transport(Pos,Velocity,Direction);
 			}
 		}
 	}
 	return false;
 }
-bool Portal::Transport(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity)
+bool Portal::Transport(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity, Ogre::Quaternion &Direction)
 {
 	
 	if(Velocity.length() > 3)

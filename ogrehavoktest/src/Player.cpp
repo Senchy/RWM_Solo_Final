@@ -57,33 +57,52 @@ void Player::Update()
 	Ogre::Vector3 MoveDir = mCamera->getDirection();
 	MoveDir = Ogre::Vector3(MoveDir.x,0, MoveDir.z);
 	MoveDir = MoveDir.normalisedCopy();
-	if (mKeyboard->isKeyDown(OIS::KC_W))
-	{
-		Body->setLinearVelocity(hkVector4(MoveDir.x * 50, Body->getLinearVelocity()(1), MoveDir.z * 50));
-	}
-	else if (mKeyboard->isKeyDown(OIS::KC_S))
-	{	
-		Body->setLinearVelocity(hkVector4(-MoveDir.x * 50, Body->getLinearVelocity()(1), -MoveDir.z * 50));
-	}
-	if (mKeyboard->isKeyDown(OIS::KC_A))
-	{	
-		Body->setLinearVelocity(hkVector4( MoveDir.z * 50, Body->getLinearVelocity()(1),-MoveDir.x * 50));
-	}
-	else if (mKeyboard->isKeyDown(OIS::KC_D))
-	{	
-		Body->setLinearVelocity(hkVector4(- MoveDir.z * 50, Body->getLinearVelocity()(1),MoveDir.x * 50));
-	}
-	if (!mKeyboard->isKeyDown(OIS::KC_W) && !mKeyboard->isKeyDown(OIS::KC_S) 
-	 && !mKeyboard->isKeyDown(OIS::KC_A) && !mKeyboard->isKeyDown(OIS::KC_D))
-	{	
-		Body->setLinearVelocity( hkVector4(0, Body->getLinearVelocity()(1), 0));
-	}
 	if(IsOnGround == true)
 	{
+		if (mKeyboard->isKeyDown(OIS::KC_W))
+		{
+			Body->setLinearVelocity(hkVector4(MoveDir.x * 40, Body->getLinearVelocity()(1), MoveDir.z * 40));
+		}
+		else if (mKeyboard->isKeyDown(OIS::KC_S))
+		{	
+			Body->setLinearVelocity(hkVector4(-MoveDir.x * 40, Body->getLinearVelocity()(1), -MoveDir.z * 40));
+		}
+		if (mKeyboard->isKeyDown(OIS::KC_A))
+		{	
+			Body->setLinearVelocity(hkVector4( MoveDir.z * 40, Body->getLinearVelocity()(1),-MoveDir.x * 40));
+		}
+		else if (mKeyboard->isKeyDown(OIS::KC_D))
+		{	
+			Body->setLinearVelocity(hkVector4(- MoveDir.z * 40, Body->getLinearVelocity()(1),MoveDir.x * 40));
+		}
+		if (!mKeyboard->isKeyDown(OIS::KC_W) && !mKeyboard->isKeyDown(OIS::KC_S) 
+		 && !mKeyboard->isKeyDown(OIS::KC_A) && !mKeyboard->isKeyDown(OIS::KC_D))
+		{	
+			Body->setLinearVelocity( hkVector4(0, Body->getLinearVelocity()(1), 0));
+		}
 		if (mKeyboard->isKeyDown(OIS::KC_SPACE))
 		{
 			Body->applyForce(0.3, hkVector4(0, mJumpForce, 0));
 			IsOnGround = false;
+		}
+	}
+	else
+	{
+		if (mKeyboard->isKeyDown(OIS::KC_W))
+		{
+			Body->setLinearVelocity(hkVector4(MoveDir.x * 20, Body->getLinearVelocity()(1), MoveDir.z * 20));
+		}
+		else if (mKeyboard->isKeyDown(OIS::KC_S))
+		{	
+			Body->setLinearVelocity(hkVector4(-MoveDir.x * 20, Body->getLinearVelocity()(1), -MoveDir.z * 20));
+		}
+		if (mKeyboard->isKeyDown(OIS::KC_A))
+		{	
+			Body->setLinearVelocity(hkVector4( MoveDir.z * 20, Body->getLinearVelocity()(1),-MoveDir.x * 20));
+		}
+		else if (mKeyboard->isKeyDown(OIS::KC_D))
+		{	
+			Body->setLinearVelocity(hkVector4(- MoveDir.z * 20, Body->getLinearVelocity()(1),MoveDir.x * 20));
 		}
 	}
 	if(HoldingObject == true)

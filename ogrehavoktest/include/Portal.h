@@ -14,8 +14,8 @@ private:
 public:
 	Portal(Ogre::Vector3 Pos, Physics * physics, Ogre::SceneManager * manager);
 	void SetPosition(Ogre::Vector3 Pos, Ogre::Vector3 WallNormal);
-	bool SetPlayerOnContact(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity);
-	bool Transport(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity);
+	bool SetPlayerOnContact(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity, Ogre::Quaternion &Direction);
+	bool Transport(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity, Ogre::Quaternion &Direction);
 	void SetOtherPortal(Portal* portal);
 	void SetColor(std::string meshname);
 	~Portal();
