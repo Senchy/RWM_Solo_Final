@@ -36,13 +36,17 @@ void Portal::SetPosition(Ogre::Vector3 Pos, Ogre::Vector3 WallNormal)
 bool Portal::SetPlayerOnContact(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity, Ogre::Quaternion &Direction)
 {
 	Ogre::Vector3 Distance = mPosition - Pos;
-	if(Distance.length() < 2 * mRadius)
+	if(Distance.length() < 1.5 * mRadius)
 	{
 		if(mOtherPortal != NULL)
 		{
-			if(Velocity.normalisedCopy().directionEquals(-mDirection, Ogre::Degree(10)))
+			if(Velocity.normalisedCopy().directionEquals(-mDirection, Ogre::Degree(30)))
 			{
 				return mOtherPortal->Transport(Pos,Velocity,Direction);
+			}
+			else if(mDirection.y > 0.7)
+			{
+				return mOtherPortal->Transport(Pos,Ogre::Vector3(0,0.2,0),Direction);
 			}
 		}
 	}
@@ -51,9 +55,9 @@ bool Portal::SetPlayerOnContact(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity, Ogr
 bool Portal::Transport(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity, Ogre::Quaternion &Direction)
 {
 	
-	if(Velocity.length() > 3)
+	if(Velocity.length() > 0.2)
 	{
-		Pos = mPosition + (mDirection * (2 * mRadius));
+		Pos = mPosition + (mDirection * (1.6 * mRadius));
 		Velocity = mDirection * Velocity.length();
 		return true;
 	}
