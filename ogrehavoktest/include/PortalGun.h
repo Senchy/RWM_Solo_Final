@@ -12,13 +12,12 @@ class PortalGun : public BaseObject
 {
 private:
 	Ogre::Camera*			mCamera;
-	bool					mPortalTracker;
 	Portal*					mPortals [2]; 
 public:
 	PortalGun(Ogre::SceneManager* manager, Physics* physicsManager, Ogre::Camera* camera);
 	~PortalGun();
 	void SetPortals(Portal* portals[]);
 	void Update();
-	bool ShootGun();
+	bool ShootGun(int WhichPortal);
 };
 #endif

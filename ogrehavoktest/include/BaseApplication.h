@@ -86,6 +86,7 @@ protected:
 public:
 	static Ogre::SceneManager* SceneMgr;
 	 OIS::Keyboard* mKeyboard;
+    OIS::Mouse*    mMouse;
 
 private:
     Ogre::RenderWindow* mWindow;
@@ -100,8 +101,6 @@ private:
 
     //OIS Input devices
     OIS::InputManager* mInputManager;
-    OIS::Mouse*    mMouse;
-   
 };
 
 #endif // #ifndef __BaseApplication_h_

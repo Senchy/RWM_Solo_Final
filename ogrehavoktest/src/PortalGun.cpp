@@ -7,9 +7,7 @@ PortalGun::PortalGun(Ogre::SceneManager* manager, Physics* physicsManager, Ogre:
 					Ogre::Quaternion(Ogre::Degree(-70),Ogre::Vector3(1,0,0)),
 					manager,
 					physicsManager), 
-				mCamera(camera),
-				mPortalTracker(true)
-
+				mCamera(camera)
 {
 	////INIT Ogre Scene Names
 	mStream << ObjectNumber;
@@ -47,8 +45,7 @@ void PortalGun::Update()
 	ObjectNode->setOrientation(mCamera->getOrientation());
 	ObjectNode->setPosition(mPosition);
 }
-
-bool PortalGun::ShootGun()
+bool PortalGun::ShootGun(int WhichPortal)
 {
 	hkpWorldRayCastInput ray;
 	ray.m_from =  hkVector4(mCamera->getPosition().x + mCamera->getDirection().x * 10,
@@ -66,24 +63,12 @@ bool PortalGun::ShootGun()
 
 		if(body->getUserData() == 2)
 		{
-			if(mPortalTracker)
-			{
-				mPortals[0]->SetPosition(Ogre::Vector3(mCamera->getPosition().x + (mCamera->getDirection().x * 10) + (mCamera->getDirection().x *( 1000 * OutPut.m_hitFraction)) ,
-														mCamera->getPosition().y + (mCamera->getDirection().y * 10) + (mCamera->getDirection().y *( 1000 * OutPut.m_hitFraction))  ,
-														mCamera->getPosition().z + (mCamera->getDirection().z * 10) + (mCamera->getDirection().z *( 1000 * OutPut.m_hitFraction))),
-											Ogre::Vector3(OutPut.m_normal(0),OutPut.m_normal(1),OutPut.m_normal(2)));
-				mPortalTracker = false;
-			}
-			else
-			{
-				mPortals[1]->SetPosition(Ogre::Vector3(mCamera->getPosition().x + (mCamera->getDirection().x * 10) + (mCamera->getDirection().x *( 1000 * OutPut.m_hitFraction)) ,
-														mCamera->getPosition().y + (mCamera->getDirection().y * 10) + (mCamera->getDirection().y *( 1000 * OutPut.m_hitFraction))  ,
-														mCamera->getPosition().z + (mCamera->getDirection().z * 10) + (mCamera->getDirection().z *( 1000 * OutPut.m_hitFraction))),
-											Ogre::Vector3(OutPut.m_normal(0),OutPut.m_normal(1),OutPut.m_normal(2)));
-				mPortalTracker = true;
-			}
+			mPortals[WhichPortal]->SetPosition(Ogre::Vector3(mCamera->getPosition().x + (mCamera->getDirection().x * 10) + (mCamera->getDirection().x *( 1000 * OutPut.m_hitFraction)) ,
+													mCamera->getPosition().y + (mCamera->getDirection().y * 10) + (mCamera->getDirection().y *( 1000 * OutPut.m_hitFraction))  ,
+													mCamera->getPosition().z + (mCamera->getDirection().z * 10) + (mCamera->getDirection().z *( 1000 * OutPut.m_hitFraction))),
+										Ogre::Vector3(OutPut.m_normal(0),OutPut.m_normal(1),OutPut.m_normal(2)));
+			return true;
 		}
 	}
-
 	return false;
 }

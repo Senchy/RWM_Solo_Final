@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 
-Player::Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* physicsManager, OIS::Keyboard * Keyboard, Ogre::Camera* camera )
+Player::Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* physicsManager, OIS::Keyboard * Keyboard, Ogre::Camera* camera, OIS::Mouse* Mouse )
 	:	DynamicObject(	position, 
 						"sphere.mesh", 
 						Ogre::Vector3(2.0,2.0,2.0),
@@ -9,10 +9,13 @@ Player::Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* phy
 						manager, 
 						physicsManager),
 		mKeyboard(Keyboard), 
+		mMouse(Mouse),
 		mCamera(camera),
 		mJumpForce(1000.0f),
 		mCameraOffset(40),
 		mFireTimeOut(200),
+		mMoveTimeOut(0),
+		mSpeed(20),
 		IsOnGround(true)
 {
 	mGun = new PortalGun(mManager,mPhysicsManager,mCamera);
@@ -51,6 +54,7 @@ Player::~Player()
 }
 void Player::Update()
 {
+	mMoveTimeOut++;
 	DynamicObject::Update();
 	mGun->Update();
 	CheckIfOnGround();
@@ -61,19 +65,19 @@ void Player::Update()
 	{
 		if (mKeyboard->isKeyDown(OIS::KC_W))
 		{
-			Body->setLinearVelocity(hkVector4(MoveDir.x * 40, Body->getLinearVelocity()(1), MoveDir.z * 40));
+			Body->setLinearVelocity(hkVector4(MoveDir.x * mSpeed, Body->getLinearVelocity()(1), MoveDir.z * mSpeed));
 		}
 		else if (mKeyboard->isKeyDown(OIS::KC_S))
 		{	
-			Body->setLinearVelocity(hkVector4(-MoveDir.x * 40, Body->getLinearVelocity()(1), -MoveDir.z * 40));
+			Body->setLinearVelocity(hkVector4(-MoveDir.x * mSpeed, Body->getLinearVelocity()(1), -MoveDir.z * mSpeed));
 		}
 		if (mKeyboard->isKeyDown(OIS::KC_A))
 		{	
-			Body->setLinearVelocity(hkVector4( MoveDir.z * 40, Body->getLinearVelocity()(1),-MoveDir.x * 40));
+			Body->setLinearVelocity(hkVector4( MoveDir.z * mSpeed, Body->getLinearVelocity()(1),-MoveDir.x * mSpeed));
 		}
 		else if (mKeyboard->isKeyDown(OIS::KC_D))
 		{	
-			Body->setLinearVelocity(hkVector4(- MoveDir.z * 40, Body->getLinearVelocity()(1),MoveDir.x * 40));
+			Body->setLinearVelocity(hkVector4(- MoveDir.z * mSpeed, Body->getLinearVelocity()(1),MoveDir.x * mSpeed));
 		}
 		if (!mKeyboard->isKeyDown(OIS::KC_W) && !mKeyboard->isKeyDown(OIS::KC_S) 
 		 && !mKeyboard->isKeyDown(OIS::KC_A) && !mKeyboard->isKeyDown(OIS::KC_D))
@@ -88,22 +92,33 @@ void Player::Update()
 	}
 	else
 	{
-		if (mKeyboard->isKeyDown(OIS::KC_W))
+		if(mMoveTimeOut > 10)
 		{
-			Body->setLinearVelocity(hkVector4(MoveDir.x * 20, Body->getLinearVelocity()(1), MoveDir.z * 20));
+			if (mKeyboard->isKeyDown(OIS::KC_W))
+			{
+				Body->applyLinearImpulse(hkVector4(MoveDir.x * 18, 0, MoveDir.z * 18));
+			}
+			else if (mKeyboard->isKeyDown(OIS::KC_S))
+			{	
+				Body->applyLinearImpulse(hkVector4(-MoveDir.x * 18,0, -MoveDir.z * 18));
+			}
+			if (mKeyboard->isKeyDown(OIS::KC_A))
+			{	
+				Body->applyLinearImpulse(hkVector4( MoveDir.z * 18,0,-MoveDir.x * 18));
+			}
+			else if (mKeyboard->isKeyDown(OIS::KC_D))
+			{	
+				Body->applyLinearImpulse(hkVector4(- MoveDir.z * 18, 0,MoveDir.x * 18));
+			}
 		}
-		else if (mKeyboard->isKeyDown(OIS::KC_S))
-		{	
-			Body->setLinearVelocity(hkVector4(-MoveDir.x * 20, Body->getLinearVelocity()(1), -MoveDir.z * 20));
-		}
-		if (mKeyboard->isKeyDown(OIS::KC_A))
-		{	
-			Body->setLinearVelocity(hkVector4( MoveDir.z * 20, Body->getLinearVelocity()(1),-MoveDir.x * 20));
-		}
-		else if (mKeyboard->isKeyDown(OIS::KC_D))
-		{	
-			Body->setLinearVelocity(hkVector4(- MoveDir.z * 20, Body->getLinearVelocity()(1),MoveDir.x * 20));
-		}
+	}
+	if(mKeyboard->isKeyDown(OIS::KC_RSHIFT) || mKeyboard->isKeyDown(OIS::KC_LSHIFT))
+	{
+		mSpeed = 36;
+	}
+	else
+	{
+		mSpeed = 24;
 	}
 	if(HoldingObject == true)
 	{
@@ -124,11 +139,19 @@ void Player::Update()
 			*/
 		}
 	}
-	if(mKeyboard->isKeyDown(OIS::KC_Q))
+	if(mMouse->getMouseState().buttonDown(OIS::MB_Left))
 	{
-		if(mFireTimeOut > 500)
+		if(mFireTimeOut > 60)
 		{
-			mGun->ShootGun();
+			mGun->ShootGun(1);
+			mFireTimeOut = 0;
+		}
+	}
+	if(mMouse->getMouseState().buttonDown(OIS::MB_Right))
+	{
+		if(mFireTimeOut > 60)
+		{
+			mGun->ShootGun(0);
 			mFireTimeOut = 0;
 		}
 	}
