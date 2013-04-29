@@ -14,9 +14,12 @@ Player::Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* phy
 		mJumpForce(1000.0f),
 		mCameraOffset(40),
 		mFireTimeOut(200),
-		mMoveTimeOut(0),
+		mMoveTimeOut(30),
+		mPickUpTimeOut(30),
 		mSpeed(20),
-		IsOnGround(true)
+		mBOX(NULL),
+		IsOnGround(true),
+		HoldingObject(false)
 {
 	mGun = new PortalGun(mManager,mPhysicsManager,mCamera);
 	const hkReal radius =					10.0f;
@@ -54,7 +57,6 @@ Player::~Player()
 }
 void Player::Update()
 {
-	mMoveTimeOut++;
 	DynamicObject::Update();
 	mGun->Update();
 	CheckIfOnGround();
@@ -122,22 +124,31 @@ void Player::Update()
 	}
 	if(HoldingObject == true)
 	{
-		if(mKeyboard->isKeyDown(OIS::KC_E))
+		if(mPickUpTimeOut > 30)
 		{
-			/*
-			drop object Code
-			*/
+			if(mKeyboard->isKeyDown(OIS::KC_E))
+			{
+				HoldingObject = false;
+				mPickUpTimeOut = 0;
+			}
 		}
 	}
 	else
 	{
-		if(mKeyboard->isKeyDown(OIS::KC_E))
+		if(mPickUpTimeOut > 30)
 		{
-			CheckIfPickUpOBject();
-			/*
-			pick Up object
-			*/
+			if(mKeyboard->isKeyDown(OIS::KC_E))
+			{
+				HoldingObject = CheckIfPickUpOBject();
+				if(HoldingObject){ mPickUpTimeOut = 0; }
+			}
 		}
+	}
+	if(HoldingObject)
+	{
+		mBOX->setPosition(hkVector4(mCamera->getPosition().x + mCamera->getDirection().x * 60,
+									mCamera->getPosition().y + mCamera->getDirection().y * 60,
+									mCamera->getPosition().z + mCamera->getDirection().z * 60));
 	}
 	if(mMouse->getMouseState().buttonDown(OIS::MB_Left))
 	{
@@ -155,8 +166,10 @@ void Player::Update()
 			mFireTimeOut = 0;
 		}
 	}
-	mFireTimeOut++;
 	mCamera->setPosition(Ogre::Vector3(ObjectNode->getPosition().x, ObjectNode->getPosition().y + mCameraOffset, ObjectNode->getPosition().z));
+	mMoveTimeOut++;
+	mFireTimeOut++;
+	mPickUpTimeOut++;
 }
 void Player::CheckIfOnGround()
 {
@@ -175,11 +188,15 @@ void Player::CheckIfOnGround()
 	}
 
 }
-void Player::CheckIfPickUpOBject()
+bool Player::CheckIfPickUpOBject()
 {
 	hkpWorldRayCastInput ray;
-	ray.m_from = hkVector4(mCamera->getDirection().x * 10,mCamera->getDirection().y * 10,mCamera->getDirection().z * 10);
-    ray.m_to = hkVector4(mCamera->getDirection().x * 60,mCamera->getDirection().y  * 60,mCamera->getDirection().z * 60);
+	ray.m_from = hkVector4(mCamera->getPosition().x + mCamera->getDirection().x * 10,
+							mCamera->getPosition().y + mCamera->getDirection().y * 10,
+							mCamera->getPosition().z + mCamera->getDirection().z * 10);
+    ray.m_to = hkVector4(mCamera->getPosition().x + mCamera->getDirection().x * 100,
+						mCamera->getPosition().y + mCamera->getDirection().y  * 100,
+						mCamera->getPosition().z + mCamera->getDirection().z * 100);
 	hkpWorldRayCastOutput OutPut;
 	mPhysicsManager->GetPhysicsWorld()->castRay(ray,OutPut);
 	if(OutPut.hasHit())
@@ -187,17 +204,14 @@ void Player::CheckIfPickUpOBject()
 		const hkpCollidable* col = OutPut.m_rootCollidable;
 		hkpRigidBody* body = hkpGetRigidBody(col);
 
-		if(body->getUserData() == 1)
+		if(body->getUserData() == 3)
 		{
-			/*
-			get the object so i can pick it up
-			*/
+			mBOX = body;
+			return true;
 		}
 
 	}
-}
-void Player::HoldObject()
-{
+	return false;
 }
 void Player::OnDeath()
 {

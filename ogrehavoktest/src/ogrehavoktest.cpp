@@ -52,6 +52,7 @@ void ogrehavoktest::createScene(void)
 	mPortals[1] = new Portal(Ogre::Vector3(-1000,-1000,-1000),&physics, mSceneMgr);
 	mPlayer->INITPortalGun(mPortals);
 	mDynamicObjects.push_back(mPlayer);
+	mDynamicObjects.push_back(new Create(Ogre::Vector3(50,50,50),mSceneMgr,&physics));
 	mStaticObjects.push_back(mPortals[0]);
 	mStaticObjects.push_back(mPortals[1]);
 	mStaticObjects.push_back( new Floor(Ogre::Vector3(0,0,0), Ogre::Vector3(1000,0,600),&physics, mSceneMgr));

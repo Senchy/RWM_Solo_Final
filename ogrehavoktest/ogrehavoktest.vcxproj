@@ -127,6 +127,7 @@
   <ItemGroup>
     <ClCompile Include="src\BaseApplication.cpp" />
     <ClCompile Include="src\BaseObject.cpp" />
+    <ClCompile Include="src\Create.cpp" />
     <ClCompile Include="src\DynamicObject.cpp" />
     <ClCompile Include="src\Floor.cpp" />
     <ClCompile Include="src\InteractiveFloor.cpp" />
@@ -144,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="include\BaseApplication.h" />
     <ClInclude Include="include\BaseObject.h" />
+    <ClInclude Include="include\Create.h" />
     <ClInclude Include="include\DynamicObject.h" />
     <ClInclude Include="include\Floor.h" />
     <ClInclude Include="include\fmod.h" />

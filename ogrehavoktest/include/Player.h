@@ -14,6 +14,7 @@ class Player :	public DynamicObject
 {
 private:
 	int						mMoveTimeOut;
+	int						mPickUpTimeOut;
 	int						mFireTimeOut;
 	Ogre::Camera*			mCamera;
 	OIS::Mouse*				mMouse;
@@ -22,12 +23,12 @@ private:
 	hkReal					mJumpForce;
 	float					mCameraOffset;
 	PortalGun *				mGun;
+	hkpRigidBody *			mBOX;
 public:
 	bool					HoldingObject;
 	bool					IsOnGround;
 	Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* physicsManager,OIS::Keyboard * Keyboard, Ogre::Camera* camera, OIS::Mouse* Mouse);
-	void CheckIfPickUpOBject();
-	void HoldObject();
+	bool CheckIfPickUpOBject();
 	void INITPortalGun(Portal* portals[]);
 	void CheckIfOnGround();
 	virtual ~Player();
