@@ -4,11 +4,15 @@
 #include "stdafx.h"
 #include "DynamicObject.h"
 
-class Laser : public DynamicObject
+class Laser : DynamicObject
 {
 private:
+	Ogre::Vector3				mDirection;
+	float						mScaleOffset;
+	hkpWorldRayCastInput		mRay;
 public:
-	Laser(Ogre::Vector3 Pos);
+	Laser(Ogre::Vector3 Pos, Ogre::Vector3 Direction,Ogre::SceneManager* manager, Physics* physicsManager);
 	~Laser();
+	void Update();
 };
 #endif

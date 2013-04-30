@@ -60,6 +60,7 @@ void Player::Update()
 	DynamicObject::Update();
 	mGun->Update();
 	CheckIfOnGround();
+	Body->setRotation(hkQuaternion(hkVector4(0,1,0),0));
 	Ogre::Vector3 MoveDir = mCamera->getDirection();
 	MoveDir = Ogre::Vector3(MoveDir.x,0, MoveDir.z);
 	MoveDir = MoveDir.normalisedCopy();

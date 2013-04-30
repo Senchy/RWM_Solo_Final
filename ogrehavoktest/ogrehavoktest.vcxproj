@@ -132,6 +132,8 @@
     <ClCompile Include="src\Floor.cpp" />
     <ClCompile Include="src\InteractiveFloor.cpp" />
     <ClCompile Include="src\InteractiveWall.cpp" />
+    <ClCompile Include="src\Laser.cpp" />
+    <ClCompile Include="src\LaserReceptor.cpp" />
     <ClCompile Include="src\ogrehavoktest.cpp" />
     <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Player.cpp" />
@@ -157,6 +159,8 @@
     <ClInclude Include="include\Havok.h" />
     <ClInclude Include="include\InteractiveFloor.h" />
     <ClInclude Include="include\InteractiveWall.h" />
+    <ClInclude Include="include\Laser.h" />
+    <ClInclude Include="include\LaserReceptor.h" />
     <ClInclude Include="include\ogrehavoktest.h" />
     <ClInclude Include="include\Physics.h" />
     <ClInclude Include="include\Player.h" />

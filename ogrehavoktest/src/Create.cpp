@@ -4,7 +4,7 @@
 Create::Create(Ogre::Vector3 Pos, Ogre::SceneManager* manager, Physics* physicsManager)
 	:	DynamicObject( Pos,
 						"cube.mesh",
-						Ogre::Vector3(20.0,20.0,20.0),
+						Ogre::Vector3(34.0,34.0,34.0),
 						Ogre::Quaternion( Ogre::Radian(0), Ogre::Vector3(0,1,0)),
 						manager,
 						physicsManager )
