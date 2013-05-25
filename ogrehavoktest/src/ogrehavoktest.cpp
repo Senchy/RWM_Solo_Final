@@ -54,6 +54,7 @@ void ogrehavoktest::createScene(void)
 	mPlayer->INITPortalGun(mPortals);
 	mDynamicObjects.push_back(mPlayer);
 	mDynamicObjects.push_back(new Create(Ogre::Vector3(50,50,50),mSceneMgr,&physics));
+	mDynamicObjects.push_back(new TestC(Ogre::Vector3(100,50,100),mSceneMgr,&physics));
 	mStaticObjects.push_back(mPortals[0]);
 	mStaticObjects.push_back(mPortals[1]);
 	mStaticObjects.push_back( new Floor(Ogre::Vector3(0,0,0), Ogre::Vector3(1000,0,600),&physics, mSceneMgr));
@@ -76,26 +77,6 @@ bool ogrehavoktest::frameRenderingQueued(const Ogre::FrameEvent& evt){
 	for(int i = 0; i < mDynamicObjects.size(); i++)
 	{
 		mDynamicObjects[i]->Update();
-		Ogre::Quaternion cameradir;
-		Vector3 Pos = mDynamicObjects[i]->ObjectNode->getPosition();
-		Vector3 Vel = Vector3(mDynamicObjects[i]->Body->getLinearVelocity()(0),
-			mDynamicObjects[i]->Body->getLinearVelocity()(1),
-			mDynamicObjects[i]->Body->getLinearVelocity()(2));
-		Player* Test = dynamic_cast<Player *>(mDynamicObjects[i]);
-		if(Test)
-		{
-			Pos.y += 20;
-		}
-		if(mPortals[0]->SetPlayerOnContact(Pos,Vel,cameradir))
-		{
-			mDynamicObjects[i]->Body->setPosition(hkVector4(Pos.x, Pos.y, Pos.z));
-			mDynamicObjects[i]->Body->setLinearVelocity(hkVector4(Vel.x, Vel.y, Vel.z));
-		}
-		else if(mPortals[1]->SetPlayerOnContact(Pos,Vel,cameradir))
-		{
-			mDynamicObjects[i]->Body->setPosition(hkVector4(Pos.x, Pos.y, Pos.z));
-			mDynamicObjects[i]->Body->setLinearVelocity(hkVector4(Vel.x, Vel.y, Vel.z));
-		}
 	}
 	mLaser->Update();
 	physics.Simulate(evt.timeSinceLastFrame*3);

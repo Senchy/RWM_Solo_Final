@@ -17,7 +17,6 @@ PortalGun::PortalGun(Ogre::SceneManager* manager, Physics* physicsManager, Ogre:
 	SceneName += mStream.str();
 	EntityName += mStream.str();
 	
-	//mPhysicsManager->GetPhysicsWorld()->castRay(
 	////INIT Ogre Scene Object
 	ObjectEnt = mManager->createEntity(EntityName, "cube.mesh");
 	ObjectEnt->setCastShadows(false);
@@ -60,8 +59,11 @@ bool PortalGun::ShootGun(int WhichPortal)
 	{
 		const hkpCollidable* col = OutPut.m_rootCollidable;
 		hkpRigidBody* body = hkpGetRigidBody(col);
-
-		if(body->getUserData() == 2)
+		Wall* TryWall = 0;
+		Floor* TryFloor = 0;
+		TryWall = dynamic_cast<Wall*> ((BaseObject *)body->getUserData());
+		TryFloor = dynamic_cast<Floor*> ((BaseObject *)body->getUserData());
+		if(TryFloor !=0 || TryWall != 0)
 		{
 			mPortals[WhichPortal]->SetPosition(Ogre::Vector3(mCamera->getPosition().x + (mCamera->getDirection().x * 10) + (mCamera->getDirection().x *( 1000 * OutPut.m_hitFraction)) ,
 													mCamera->getPosition().y + (mCamera->getDirection().y * 10) + (mCamera->getDirection().y *( 1000 * OutPut.m_hitFraction))  ,

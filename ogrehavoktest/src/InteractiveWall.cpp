@@ -8,6 +8,7 @@ InteractiveWall::InteractiveWall(Ogre::Vector3 Pos, Ogre::Vector3 size,Physics *
 			manager,
 			rotation)
 {
+	Body->setUserData(hkUlong(this));
 }
 InteractiveWall::~InteractiveWall()
 {

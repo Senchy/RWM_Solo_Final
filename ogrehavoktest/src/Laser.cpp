@@ -17,7 +17,7 @@ Laser::Laser(Ogre::Vector3 Pos, Ogre::Vector3 Direction,Ogre::SceneManager* mana
 	Ogre::Vector3 src = ObjectNode->getOrientation() * Ogre::Vector3::UNIT_Y;
 	Ogre::Quaternion quat = src.getRotationTo(mDirection);  
 	ObjectNode->rotate(quat); 
-	ObjectEnt->setMaterialName("Examples/WaterStream");
+	ObjectEnt->setMaterialName("Template/Red");
 	mRay.m_from = hkVector4(mPosition.x,mPosition.y,mPosition.z);
     mRay.m_to = hkVector4(mPosition.x + (mDirection.x * 1000),
 							mPosition.y + (mDirection.y * 1000),

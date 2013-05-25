@@ -29,7 +29,7 @@ Wall::Wall(Ogre::Vector3 Pos, Ogre::Vector3 size,Physics * physics, Ogre::SceneM
 	WallInfo.m_rotation =					hkQuaternion(mOrintation.x, mOrintation.y, mOrintation.z, mOrintation.w);
 	WallInfo.m_position = 					hkVector4(mPosition.x,mPosition.y,mPosition.z);
 	Body =									new hkpRigidBody(WallInfo);
-	Body->setUserData(2);
+	Body->setUserData(hkUlong(this));
 	mPhysicsManager->GetPhysicsWorld()->addEntity(Body);
 	ObjectNode->setScale(mSize.x / ObjectEnt->getBoundingBox().getSize().x,
 		mSize.y / ObjectEnt->getBoundingBox().getSize().y, mSize.z / ObjectEnt->getBoundingBox().getSize().z);

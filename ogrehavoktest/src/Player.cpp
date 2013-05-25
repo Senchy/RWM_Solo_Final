@@ -22,6 +22,29 @@ Player::Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* phy
 		HoldingObject(false)
 {
 	mGun = new PortalGun(mManager,mPhysicsManager,mCamera);
+
+	hkpCylinderShape* Hbox =						new hkpCylinderShape(hkVector4(0,10,0),hkVector4(0,-10,0),10);
+	Hbox->setRadius(0.0f);
+
+	hkpRigidBodyCinfo						TopBodyInfo;
+	TopBodyInfo.m_mass =					100.0f;
+	hkMassProperties TopmassProperties;
+	hkpInertiaTensorComputer::computeCylinderVolumeMassProperties(
+		hkVector4(0,10,0),hkVector4(0,-10,0),10, TopBodyInfo.m_mass, TopmassProperties);
+	TopBodyInfo.m_mass =					TopmassProperties.m_mass;
+	TopBodyInfo.m_centerOfMass =			TopmassProperties.m_centerOfMass;
+	TopBodyInfo.m_inertiaTensor =			TopmassProperties.m_inertiaTensor;
+	TopBodyInfo.m_solverDeactivation =		TopBodyInfo.SOLVER_DEACTIVATION_MEDIUM;
+	TopBodyInfo.m_shape =					Hbox;
+	TopBodyInfo.m_restitution =				0.0f;
+	TopBodyInfo.m_qualityType =				HK_COLLIDABLE_QUALITY_MOVING;
+	TopBodyInfo.m_motionType =				hkpMotion::MOTION_BOX_INERTIA;
+	TopBodyInfo.m_rotation =				hkQuaternion(mOrintation.x, mOrintation.y, mOrintation.z, mOrintation.w);
+	TopBodyInfo.m_position = 				hkVector4(mPosition.x,mPosition.y + 30,mPosition.z);
+	mTopBody =								new hkpRigidBody(TopBodyInfo);
+	mTopBody->setUserData(hkUlong(this));
+	mPhysicsManager->GetPhysicsWorld()->addEntity(mTopBody);
+
 	const hkReal radius =					10.0f;
 	const hkReal sphereMass =				200.0f;
 	hkpRigidBodyCinfo						ObjectInfo;
@@ -38,15 +61,14 @@ Player::Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* phy
 	ObjectInfo.m_restitution =				0.1;
 	ObjectInfo.m_qualityType =				HK_COLLIDABLE_QUALITY_BULLET;//for fast objects
 	Body =									new hkpRigidBody( ObjectInfo );
-	Body->setUserData(0);
+	Body->setUserData(hkUlong(this));
 	ObjectInfo.m_shape->removeReference();
-
+	
+	Body->updateShape();
 	mPhysicsManager->GetPhysicsWorld()->addEntity( Body );
 	ObjectNode->setScale(Ogre::Vector3(1.8 * radius / ObjectEnt->getBoundingRadius(),
 						1.8 * radius / ObjectEnt->getBoundingRadius(), 1.8 * radius / ObjectEnt->getBoundingRadius()));
 
-	PlayerCollision* CollisionListener =	new PlayerCollision();
-	Body->addContactListener(CollisionListener);
 }
 void Player::INITPortalGun(Portal* portals[])
 {
@@ -60,7 +82,12 @@ void Player::Update()
 	DynamicObject::Update();
 	mGun->Update();
 	CheckIfOnGround();
-	Body->setRotation(hkQuaternion(hkVector4(0,1,0),0));
+	mTopBody->setRotation(hkQuaternion(hkVector4(0,1,0),hkReal(0)));
+	mTopBody->setPosition(hkVector4(Body->getPosition()(0),mTopBody->getPosition()(1),Body->getPosition()(2)));
+	if(mTopBody->getPosition()(1) < Body->getPosition()(1))
+	{
+		mTopBody->setPosition(hkVector4(Body->getPosition()(0),Body->getPosition()(1) + 30,Body->getPosition()(2)));
+	}
 	Ogre::Vector3 MoveDir = mCamera->getDirection();
 	MoveDir = Ogre::Vector3(MoveDir.x,0, MoveDir.z);
 	MoveDir = MoveDir.normalisedCopy();
@@ -204,8 +231,10 @@ bool Player::CheckIfPickUpOBject()
 	{
 		const hkpCollidable* col = OutPut.m_rootCollidable;
 		hkpRigidBody* body = hkpGetRigidBody(col);
-
-		if(body->getUserData() == 3)
+		
+		Create* TryPickup = 0;
+		TryPickup = dynamic_cast<Create*> ((BaseObject *)body->getUserData());
+		if(TryPickup != 0)
 		{
 			mBOX = body;
 			return true;

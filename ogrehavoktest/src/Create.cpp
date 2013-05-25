@@ -29,7 +29,7 @@ Create::Create(Ogre::Vector3 Pos, Ogre::SceneManager* manager, Physics* physicsM
 	CreateInfo.m_rotation =					hkQuaternion(mOrintation.x, mOrintation.y, mOrintation.z, mOrintation.w);
 	CreateInfo.m_position = 				hkVector4(mPosition.x,mPosition.y,mPosition.z);
 	Body =									new hkpRigidBody(CreateInfo);
-	Body->setUserData(3);
+	Body->setUserData(hkUlong(this));
 	mPhysicsManager->GetPhysicsWorld()->addEntity(Body);
 	ObjectNode->setScale(mSize.x / ObjectEnt->getBoundingBox().getSize().x,
 		mSize.y / ObjectEnt->getBoundingBox().getSize().y, mSize.z / ObjectEnt->getBoundingBox().getSize().z);

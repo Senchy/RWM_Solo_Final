@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include "BaseObject.h"
 #include "Portal.h"
+#include "Wall.h"
+#include "Floor.h"
 #include <Physics/Collide/Query/CastUtil/hkpWorldRayCastInput.h>         
 #include <Physics/Collide/Query/CastUtil/hkpWorldRayCastOutput.h>    
 #include <Physics/Collide/Query/Collector/RayCollector/hkpAllRayHitCollector.h>

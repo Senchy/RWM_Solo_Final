@@ -8,6 +8,7 @@ InteractiveFloor::InteractiveFloor(Ogre::Vector3 Pos, Ogre::Vector3 size, Physic
 		physics,
 		manager)
 {
+	Body->setUserData(hkUlong(this));
 }
 InteractiveFloor::~InteractiveFloor()
 {
