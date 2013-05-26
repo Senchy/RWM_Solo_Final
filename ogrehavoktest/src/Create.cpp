@@ -8,6 +8,7 @@ Create::Create(Ogre::Vector3 Pos, Ogre::SceneManager* manager, Physics* physicsM
 						Ogre::Quaternion( Ogre::Radian(0), Ogre::Vector3(0,1,0)),
 						manager,
 						physicsManager )
+						,Hit(false)
 {
 	hkVector4 HalfSize( mSize.x / 2.0, mSize.y / 2.0, mSize.z / 2.0);
 	hkpBoxShape* Hbox =						new hkpBoxShape(HalfSize,0);
@@ -30,6 +31,8 @@ Create::Create(Ogre::Vector3 Pos, Ogre::SceneManager* manager, Physics* physicsM
 	CreateInfo.m_position = 				hkVector4(mPosition.x,mPosition.y,mPosition.z);
 	Body =									new hkpRigidBody(CreateInfo);
 	Body->setUserData(hkUlong(this));
+	RecptorFront = mOrintation * Ogre::Vector3::UNIT_X;
+	RecptorSide = mOrintation * Ogre::Vector3::UNIT_Z;
 	mPhysicsManager->GetPhysicsWorld()->addEntity(Body);
 	ObjectNode->setScale(mSize.x / ObjectEnt->getBoundingBox().getSize().x,
 		mSize.y / ObjectEnt->getBoundingBox().getSize().y, mSize.z / ObjectEnt->getBoundingBox().getSize().z);
@@ -41,8 +44,14 @@ Create::~Create()
 void Create::Update()
 {
 	DynamicObject::Update();
+	RecptorFront = mOrintation * Ogre::Vector3::UNIT_X;
+	RecptorSide = mOrintation * Ogre::Vector3::UNIT_Z;
 }
 
 void Create::OnDeath()
 {
+}
+bool Create::HitByLaser(Ogre::Vector3 &InHitPos_OutStartPos,Ogre::Vector3 &inPlaneNormal_OutLaserDir)
+{
+	return true;
 }

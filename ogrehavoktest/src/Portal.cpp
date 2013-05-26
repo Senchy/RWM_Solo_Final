@@ -102,6 +102,10 @@ bool Portal::Transport(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity, Ogre::Quater
 	}
 	return false;
 }
+bool Portal::HitByLaser(Ogre::Vector3 &InHitPos_OutStartPos,Ogre::Vector3 &inPlaneNormal_OutLaserDir)
+{
+	return true;
+}
 Portal::~Portal()
 {
 }

@@ -37,5 +37,5 @@ void Laser::Update()
 	float hitScale = (OutPut.m_hitFraction * 1000.0/mScaleOffset);
 	ObjectNode->setPosition(mPosition + (mDirection * hitScale));
 	ObjectNode->setScale(0.2,hitScale,0.2);
-	
+	OutPut.reset();
 }

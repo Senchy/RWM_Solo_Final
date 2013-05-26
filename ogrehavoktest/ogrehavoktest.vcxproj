@@ -143,6 +143,7 @@
     <ClCompile Include="src\SoundManager.cpp" />
     <ClCompile Include="src\StaticObject.cpp" />
     <ClCompile Include="src\TestC.cpp" />
+    <ClCompile Include="src\Turret.cpp" />
     <ClCompile Include="src\Wall.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
@@ -172,6 +173,7 @@
     <ClInclude Include="include\SoundManager.h" />
     <ClInclude Include="include\StaticObject.h" />
     <ClInclude Include="include\TestC.h" />
+    <ClInclude Include="include\Turret.h" />
     <ClInclude Include="include\Wall.h" />
     <ClInclude Include="res\Resource.h" />
     <ClInclude Include="stdafx.h" />
