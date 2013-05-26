@@ -9,8 +9,11 @@ class LaserReceptor : StaticObject
 {
 private:
 	Laser *						mLaser;
+	bool						mHit;
 public:
 	LaserReceptor(Ogre::Vector3 PosStart,Ogre::Vector3 direction,Ogre::SceneManager* manager, Physics* physicsManager);
+	bool IsHit();
+	void Hit();
 	~LaserReceptor();
 };
 #endif

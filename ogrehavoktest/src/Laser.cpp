@@ -26,11 +26,16 @@ Laser::Laser(Ogre::Vector3 Pos, Ogre::Vector3 Direction,Ogre::SceneManager* mana
 Laser::~Laser()
 {
 }
+void Laser::getOutPut(hkpWorldRayCastOutput &output, Ogre::Vector3 &HitPos)
+{
+	output = OutPut;
+	HitPos = mPosition + (mDirection * 1000 / OutPut.m_hitFraction);
+}
 void Laser::Update()
 {
-	hkpWorldRayCastOutput OutPut;
 	mPhysicsManager->GetPhysicsWorld()->castRay(mRay,OutPut);
 	float hitScale = (OutPut.m_hitFraction * 1000.0/mScaleOffset);
 	ObjectNode->setPosition(mPosition + (mDirection * hitScale));
 	ObjectNode->setScale(0.2,hitScale,0.2);
+	
 }

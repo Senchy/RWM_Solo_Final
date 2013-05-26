@@ -6,7 +6,8 @@ LaserReceptor::LaserReceptor(Ogre::Vector3 PosStart,Ogre::Vector3 direction,Ogre
 					Ogre::Vector3(1,1,1), 
 					"cube.mesh", 
 					physicsManager,
-					manager)
+					manager),
+			mHit(false)
 {
 	hkVector4 HalfSize( mSize.x / 2.0, mSize.y / 2.0, mSize.z / 2.0);
 	hkpBoxShape* Hbox =						new hkpBoxShape(HalfSize,0);
@@ -28,7 +29,7 @@ LaserReceptor::LaserReceptor(Ogre::Vector3 PosStart,Ogre::Vector3 direction,Ogre
 	FloorInfo.m_rotation =					hkQuaternion(mOrintation.x, mOrintation.y, mOrintation.z, mOrintation.w);
 	FloorInfo.m_position = 					hkVector4(mPosition.x,mPosition.y,mPosition.z);
 	Body =									new hkpRigidBody(FloorInfo);
-	Body->setUserData(10);
+	Body->setUserData(hkUlong(this));
 	mPhysicsManager->GetPhysicsWorld()->addEntity(Body);
 	ObjectNode->setScale(mSize.x / ObjectEnt->getBoundingBox().getSize().x,
 		mSize.y / ObjectEnt->getBoundingBox().getSize().y, mSize.z / ObjectEnt->getBoundingBox().getSize().z);
@@ -41,6 +42,14 @@ LaserReceptor::LaserReceptor(Ogre::Vector3 PosStart,Ogre::Vector3 direction,Ogre
 		GetBodyAngle.getAxis(GetrotationAxis);
 	}
 	Ogre::Quaternion UpdateOrintation(Ogre::Radian(GetBodyAngle.getAngle()), Ogre::Vector3(GetrotationAxis(0),GetrotationAxis(1),GetrotationAxis(2)));
+}
+bool LaserReceptor::IsHit()
+{
+	return mHit;
+}
+void LaserReceptor::Hit()
+{
+	mHit = true;
 }
 LaserReceptor::~LaserReceptor()
 {
