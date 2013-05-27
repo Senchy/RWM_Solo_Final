@@ -50,6 +50,7 @@ protected:
 	Laser*							mLaser;
 	std::vector<DynamicObject*>		mDynamicObjects;
 	std::vector<StaticObject*>		mStaticObjects;
+	std::vector<Turret*>			mTurrets;
 	Player*							mPlayer;
 	Portal*							mPortals[2]; 
     virtual void createScene(void);

@@ -54,7 +54,9 @@ void ogrehavoktest::createScene(void)
 	mPlayer->INITPortalGun(mPortals);
 	mDynamicObjects.push_back(mPlayer);
 	mDynamicObjects.push_back(new Create(Ogre::Vector3(50,50,50),mSceneMgr,&physics));
-	mDynamicObjects.push_back(new Turret(Ogre::Vector3(100,80,-100),mSceneMgr,&physics));
+	Turret* newTurret = new Turret(Ogre::Vector3(100,80,-100),mSceneMgr,&physics);
+	mTurrets.push_back(newTurret);
+	mDynamicObjects.push_back(newTurret);
 	mStaticObjects.push_back(mPortals[0]);
 	mStaticObjects.push_back(mPortals[1]);
 	mStaticObjects.push_back( new Floor(Ogre::Vector3(0,0,0), Ogre::Vector3(1000,0,600),&physics, mSceneMgr));
@@ -77,6 +79,12 @@ bool ogrehavoktest::frameRenderingQueued(const Ogre::FrameEvent& evt){
 	for(int i = 0; i < mDynamicObjects.size(); i++)
 	{
 		mDynamicObjects[i]->Update();
+	}
+	for(int i = 0; i < mTurrets.size(); i++)
+	{
+		mTurrets[i]->SetPlayerPos(Ogre::Vector3(mPlayer->Body->getPosition()(0),
+												mPlayer->Body->getPosition()(1),
+												mPlayer->Body->getPosition()(2)));
 	}
 	mLaser->Update();
 	physics.Simulate(evt.timeSinceLastFrame*3);

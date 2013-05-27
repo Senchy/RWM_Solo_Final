@@ -8,6 +8,9 @@ Turret::Turret(Ogre::Vector3 Pos, Ogre::SceneManager* manager, Physics* physicsM
 						Ogre::Quaternion( Ogre::Radian(0), Ogre::Vector3(0,1,0)),
 						manager,
 						physicsManager )
+				,mRotateValue(0)
+				,mChangeInRotation(0.001)
+				,mKillTimer(0)
 {
 	hkVector4 HalfSize( mSize.x / 2.0, mSize.y / 2.0, mSize.z / 2.0);
 	hkpBoxShape* Hbox =						new hkpBoxShape(HalfSize,0);
@@ -30,7 +33,6 @@ Turret::Turret(Ogre::Vector3 Pos, Ogre::SceneManager* manager, Physics* physicsM
 	TurretInfo.m_position = 				hkVector4(mPosition.x,mPosition.y,mPosition.z);
 	Body =									new hkpRigidBody(TurretInfo);
 	Body->setUserData(hkUlong(this));
-	StaringDirection = mOrintation * Ogre::Vector3::UNIT_X;
 	mPhysicsManager->GetPhysicsWorld()->addEntity(Body);
 	ObjectNode->setScale(mSize.x / ObjectEnt->getBoundingBox().getSize().x,
 		mSize.y / ObjectEnt->getBoundingBox().getSize().y, mSize.z / ObjectEnt->getBoundingBox().getSize().z);
@@ -41,7 +43,70 @@ Turret::~Turret()
 }
 void Turret::Update()
 {
+	
+	bool PlayerInRoom = false;
 	DynamicObject::Update();
+	hkpWorldRayCastOutput	OutPut;
+	hkpWorldRayCastInput	Ray;
+	Player* theplayer = 0;
+	Ogre::Vector3 RayDirection = (mPlayerPos - mPosition).normalisedCopy();
+	Ray.m_from = hkVector4(mPosition.x + (RayDirection.x * 25)
+						,mPosition.y + (RayDirection.y * 25)
+						,mPosition.z + (RayDirection.z * 25));
+    Ray.m_to = hkVector4(mPlayerPos.x, mPlayerPos.y, mPlayerPos.z);
+	mPhysicsManager->GetPhysicsWorld()->castRay(Ray,OutPut);
+	if(OutPut.hasHit())
+	{
+		const hkpCollidable* col = OutPut.m_rootCollidable;
+		hkpRigidBody* body = hkpGetRigidBody(col);
+		theplayer = dynamic_cast<Player*> ((BaseObject *)body->getUserData());
+		if(theplayer != 0)
+		{
+			PlayerInRoom = true;
+		}
+		else
+		{
+			mPlayerInSight = false;
+			mKillTimer = 0;
+		}
+	}
+	Ogre::Vector3 NewDir = Ogre::Vector3(RayDirection.x,0,RayDirection.z);
+	NewDir.normalise();
+	Ogre::Radian angle = NewDir.angleBetween(ObjectNode->getOrientation() * Ogre::Vector3::UNIT_X);
+	if(PlayerInRoom || !mPlayerInSight)
+	{
+		if(angle.valueDegrees() < 20 || angle.valueDegrees() > -20)
+		{
+			mPlayerInSight = true;
+		}
+	}
+	if(mPlayerInSight)
+	{
+		mRotateValue += angle.valueRadians();
+		Body->setRotation(hkQuaternion(hkVector4(0,1,0),mRotateValue));
+		mKillTimer++;
+		if(mKillTimer > 100)
+		{
+			theplayer->OnDeath();
+		}
+	}
+	else
+	{
+		if(mRotateValue < -2)
+		{
+			mChangeInRotation = 0.001;
+		}
+		else if (mRotateValue > 2)
+		{
+			mChangeInRotation = -0.001;
+		}
+		mRotateValue += mChangeInRotation;
+		Body->setRotation(hkQuaternion(hkVector4(0,1,0),mRotateValue));
+	}
+}
+void Turret::SetPlayerPos(Ogre::Vector3 PlayerPos)
+{
+	mPlayerPos = PlayerPos;
 }
 void Turret::OnDeath()
 {
