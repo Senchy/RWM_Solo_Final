@@ -67,6 +67,9 @@ void ogrehavoktest::createScene(void)
 	mStaticObjects.push_back(new Wall(Ogre::Vector3(0,80,-300), Ogre::Vector3(1000,160,0),&physics, mSceneMgr, 0));
 	mStaticObjects.push_back(new Wall(Ogre::Vector3(500,80,0), Ogre::Vector3(600,160,0),&physics, mSceneMgr, 90));
 	mStaticObjects.push_back(new Wall(Ogre::Vector3(-500,80,0), Ogre::Vector3(600,160,0),&physics, mSceneMgr, 90));
+	Catapult* newCatapult = new Catapult(Ogre::Vector3(-200,0,40),&physics, mSceneMgr);
+	mCatapult.push_back(newCatapult);
+	mStaticObjects.push_back(newCatapult);
 	Door* newDoors = new Door(Ogre::Vector3(-450,40,0),&physics, mSceneMgr, 90);
 	mDoors.push_back(newDoors);
 	mStaticObjects.push_back(newDoors);
@@ -94,6 +97,10 @@ bool ogrehavoktest::frameRenderingQueued(const Ogre::FrameEvent& evt){
 	for(int i = 0; i < mDoors.size(); i++)
 	{
 		mDoors[i]->OpenDoor();
+	}
+	for(int i = 0; i < mCatapult.size();i++)
+	{
+		mCatapult[i]->Update();
 	}
 	mLaser->Update();
 	physics.Simulate(evt.timeSinceLastFrame*3);

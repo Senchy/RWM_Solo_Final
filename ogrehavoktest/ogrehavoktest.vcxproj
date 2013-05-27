@@ -127,6 +127,7 @@
   <ItemGroup>
     <ClCompile Include="src\BaseApplication.cpp" />
     <ClCompile Include="src\BaseObject.cpp" />
+    <ClCompile Include="src\Catapult.cpp" />
     <ClCompile Include="src\Create.cpp" />
     <ClCompile Include="src\Door.cpp" />
     <ClCompile Include="src\DynamicObject.cpp" />
@@ -141,6 +142,7 @@
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Portal.cpp" />
     <ClCompile Include="src\PortalGun.cpp" />
+    <ClCompile Include="src\Sensor.cpp" />
     <ClCompile Include="src\SoundManager.cpp" />
     <ClCompile Include="src\StaticObject.cpp" />
     <ClCompile Include="src\TestC.cpp" />
@@ -151,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="include\BaseApplication.h" />
     <ClInclude Include="include\BaseObject.h" />
+    <ClInclude Include="include\Catapult.h" />
     <ClInclude Include="include\Create.h" />
     <ClInclude Include="include\Door.h" />
     <ClInclude Include="include\DynamicObject.h" />
@@ -172,6 +175,7 @@
     <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\Portal.h" />
     <ClInclude Include="include\PortalGun.h" />
+    <ClInclude Include="include\Sensor.h" />
     <ClInclude Include="include\SoundManager.h" />
     <ClInclude Include="include\StaticObject.h" />
     <ClInclude Include="include\TestC.h" />

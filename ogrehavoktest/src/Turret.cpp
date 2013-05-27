@@ -87,7 +87,7 @@ void Turret::Update()
 		mKillTimer++;
 		if(mKillTimer > 100)
 		{
-			theplayer->OnDeath();
+			//theplayer->OnDeath();
 		}
 	}
 	else

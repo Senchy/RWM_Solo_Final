@@ -2,13 +2,21 @@
 #define CATAPULT_H
 
 #include "stdafx.h"
-#include "DynamicObject.h"
+#include "StaticObject.h"
+#include "Sensor.h"
+#include "Player.h"
+#include <Physics/Collide/Shape/Convex/Cylinder/hkpCylinderShape.h>
 
-class Catapult : public DynamicObject
+class Catapult : public StaticObject
 {
 private:
+	Sensor* mSensor;
+	bool mLaunchPlayer;
+	bool reset;
+	float mRadius;
 public:
-	Catapult(Ogre::Vector3 Pos);
+	Catapult(Ogre::Vector3 Pos, Physics * physics, Ogre::SceneManager * manager);
 	~Catapult();
+	void Update();
 };
 #endif
