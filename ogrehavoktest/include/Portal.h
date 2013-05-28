@@ -22,6 +22,7 @@ public:
 	void SetOtherPortal(Portal* portal);
 	void SetColor(std::string meshname);
 	bool HitByLaser(Ogre::Vector3 &InHitPos_OutStartPos,Ogre::Vector3 &inPlaneNormal_OutLaserDir);
+	Ogre::Vector3 GetDirection();
 	~Portal();
 };
 class PortalCollision : public hkReferencedObject, public hkpContactListener

@@ -45,7 +45,9 @@ void Create::Update()
 {
 	DynamicObject::Update();
 	RecptorFront = mOrintation * Ogre::Vector3::UNIT_X;
+	RecptorFront = RecptorFront.normalisedCopy();
 	RecptorSide = mOrintation * Ogre::Vector3::UNIT_Z;
+	RecptorSide = RecptorSide.normalisedCopy();
 }
 
 void Create::OnDeath()
@@ -53,5 +55,19 @@ void Create::OnDeath()
 }
 bool Create::HitByLaser(Ogre::Vector3 &InHitPos_OutStartPos,Ogre::Vector3 &inPlaneNormal_OutLaserDir)
 {
+	if(inPlaneNormal_OutLaserDir == RecptorFront)
+	{
+		InHitPos_OutStartPos = ObjectNode->getPosition() + (RecptorSide * (mSize/2));
+		inPlaneNormal_OutLaserDir = RecptorSide;
+	}
+	else if(inPlaneNormal_OutLaserDir == RecptorSide)
+	{
+		InHitPos_OutStartPos = ObjectNode->getPosition() + (RecptorFront * (mSize/2));
+		inPlaneNormal_OutLaserDir = RecptorFront;
+	}
+	else
+	{
+		return false;
+	}
 	return true;
 }

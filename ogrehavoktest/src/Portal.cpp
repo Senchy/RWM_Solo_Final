@@ -104,7 +104,13 @@ bool Portal::Transport(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity, Ogre::Quater
 }
 bool Portal::HitByLaser(Ogre::Vector3 &InHitPos_OutStartPos,Ogre::Vector3 &inPlaneNormal_OutLaserDir)
 {
+	inPlaneNormal_OutLaserDir = mOtherPortal->GetDirection();
+	InHitPos_OutStartPos = mOtherPortal->ObjectNode->getPosition() + (mOtherPortal->GetDirection() * 10);
 	return true;
+}
+Ogre::Vector3 Portal::GetDirection()
+{
+	return mDirection;
 }
 Portal::~Portal()
 {

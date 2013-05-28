@@ -24,7 +24,6 @@ DynamicObject::DynamicObject(Ogre::Vector3 position, std::string Mesh,  Ogre::Ve
 
 DynamicObject::~DynamicObject()
 {
-	Body->removeReference();
 	mManager->destroyEntity(ObjectEnt);
 	mManager->destroySceneNode(ObjectNode);
 }

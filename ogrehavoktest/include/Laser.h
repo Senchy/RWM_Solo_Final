@@ -13,8 +13,12 @@ private:
 	hkpWorldRayCastOutput		OutPut;
 public:
 	Laser(Ogre::Vector3 Pos, Ogre::Vector3 Direction,Ogre::SceneManager* manager, Physics* physicsManager);
-	~Laser();
+	virtual ~Laser();
 	void Update();
+	Ogre::Vector3 GetPos();
+	Ogre::Vector3 GetDir();
+	void SetDir(Ogre::Vector3 Pos);
+	void SetPos(Ogre::Vector3 Dir);
 	void getOutPut(hkpWorldRayCastOutput &output, Ogre::Vector3 &HitPos);
 };
 #endif

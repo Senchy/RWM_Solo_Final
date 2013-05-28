@@ -16,6 +16,8 @@ class LaserManager
 private:
 	std::vector<Laser*>		mLaser;
 	LaserReceptor*			mReceptor;
+	Ogre::SceneManager*		mManger;
+	Physics*				mPhysicsManager;
 public:
 	LaserManager(Ogre::Vector3 StartPos, Ogre::Vector3 dir, 
 		Ogre::Vector3 RecptorPos,Ogre::Vector3 Recptordir,

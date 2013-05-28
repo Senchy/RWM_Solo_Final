@@ -7,8 +7,13 @@ BaseObject::BaseObject(Ogre::Vector3 position, Ogre::Vector3 size, Ogre::Quatern
 		mOrintation(orintation),
 		mManager(manager),
 		mPhysicsManager(physicsManager)
+		,Body(0)
 {
 }
 BaseObject::~BaseObject()
 {
+	if(Body != 0)
+	{
+		Body->removeReference();
+	}
 }

@@ -47,7 +47,7 @@ void ogrehavoktest::createScene(void)
     light->setPosition(20,500,50);
 
 	physics.SetUp(); //perform havok initialisation stuff
-	mLaser = new Laser(Ogre::Vector3(0,20,300), Ogre::Vector3(0,0,-1),mSceneMgr,&physics);
+	mLasers.push_back(new LaserManager(Ogre::Vector3(0,20,300), Ogre::Vector3(0,0,-1),Ogre::Vector3(0,80,300), Ogre::Vector3(0,0,0),mSceneMgr,&physics));
 	mPlayer = new Player(Ogre::Vector3(-100,20,0),mSceneMgr,&physics,mKeyboard,mCamera,mMouse);
 	mPortals[0] = new Portal(Ogre::Vector3(-1000,-1000,-1000),&physics, mSceneMgr);
 	mPortals[1] = new Portal(Ogre::Vector3(-1000,-1000,-1000),&physics, mSceneMgr);
@@ -102,7 +102,10 @@ bool ogrehavoktest::frameRenderingQueued(const Ogre::FrameEvent& evt){
 	{
 		mCatapult[i]->Update();
 	}
-	mLaser->Update();
+	for(int i = 0; i < mLasers.size();i++)
+	{
+		mLasers[i]->Update();
+	}
 	physics.Simulate(evt.timeSinceLastFrame*3);
 	return BaseApplication::frameRenderingQueued(evt); 
 }
