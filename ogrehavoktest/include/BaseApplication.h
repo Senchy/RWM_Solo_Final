@@ -41,7 +41,7 @@ class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventList
 public:
     BaseApplication(void);
     virtual ~BaseApplication(void);
-
+	void Shutdown();
     virtual void go(void);
 
 protected:

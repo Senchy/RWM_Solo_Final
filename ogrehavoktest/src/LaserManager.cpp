@@ -9,6 +9,7 @@ LaserManager::LaserManager(Ogre::Vector3 StartPos, Ogre::Vector3 dir,
 	 mManger(manager)
 	,mPhysicsManager(physicsManager)
 	,mDoor(thedoor)
+	,mShutdown(false)
 {
 	mLaser.push_back(new Laser(StartPos, dir, manager, physicsManager));
 	mReceptor = new LaserReceptor(RecptorPos, Recptordir, manager, physicsManager);
@@ -18,7 +19,17 @@ LaserManager::~LaserManager()
 }
 void LaserManager::Update()
 {
-	int removaleNode = 1;
+	next++;
+	if(next % 3)
+	{
+		int removaleNode = mLaser.size();
+		for(int i = 1; i < removaleNode; i++)
+		{
+			Laser* distructionlaser = mLaser.at(mLaser.size() - 1);
+			distructionlaser->~Laser();
+			mLaser.pop_back();
+		}
+	}
 	for(int i = 0; i < mLaser.size();i++)
 	{
 		hkpWorldRayCastOutput output;
@@ -40,6 +51,11 @@ void LaserManager::Update()
 
 			LaserReceptor* LR = 0;
 			LR = dynamic_cast<LaserReceptor*> ((BaseObject *)body->getUserData());
+
+			Player* thePlayer = 0;
+			thePlayer = dynamic_cast<Player*> ((BaseObject *)body->getUserData());
+				
+
 			if(mCrate != 0)
 			{
 				CreateNew = mCrate->HitByLaser(NextLaserCreation,NextDirCreation);
@@ -52,7 +68,10 @@ void LaserManager::Update()
 			{
 				LR->Hit();
 			}
-			
+			else if(thePlayer != 0)
+			{
+				mShutdown = true;
+			}
 			if(CreateNew == true)
 			{
 				if(i == (mLaser.size() - 1))
@@ -68,21 +87,9 @@ void LaserManager::Update()
 					}
 				}
 			}
-			else
-			{
-				if(i == 1)
-				{
-					removaleNode = i + 1;
-				}
-			}
 		}
 	}
-	for(int i = 1; i < removaleNode; i++)
-	{
-		Laser* distructionlaser = mLaser.at(mLaser.size() - 1);
-		distructionlaser->~Laser();
-		mLaser.pop_back();
-	}
+
 	if(mReceptor->IsHit())
 	{
 		mDoor->OpenDoor();

@@ -48,7 +48,7 @@ public:
 	Physics physics;
     ogrehavoktest(void);
     virtual ~ogrehavoktest(void);
-
+	bool shutdown;
 
 protected:
 	std::vector<LaserManager* >		mLasers;
@@ -63,5 +63,4 @@ protected:
 	virtual void destroyScene(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent&);
 };
-
 #endif // #ifndef __ogrehavoktest_h_

@@ -11,6 +11,7 @@ Turret::Turret(Ogre::Vector3 Pos, Ogre::SceneManager* manager, Physics* physicsM
 				,mRotateValue(0)
 				,mChangeInRotation(0.001)
 				,mKillTimer(0)
+				,mShutdown(false)
 {
 	hkVector4 HalfSize( mSize.x / 2.0, mSize.y / 2.0, mSize.z / 2.0);
 	hkpBoxShape* Hbox =						new hkpBoxShape(HalfSize,0);
@@ -87,6 +88,7 @@ void Turret::Update()
 		mKillTimer++;
 		if(mKillTimer > 100)
 		{
+			mShutdown = true;
 			//theplayer->OnDeath();
 		}
 	}

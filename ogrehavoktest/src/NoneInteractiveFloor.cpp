@@ -8,6 +8,7 @@ NoneInteractiveFloor::NoneInteractiveFloor(Ogre::Vector3 Pos, Ogre::Vector3 size
 		manager)
 {
 	Body->setUserData(hkUlong(this));
+	ObjectEnt->setMaterialName("Examples/BeachStones");
 }
 NoneInteractiveFloor::~NoneInteractiveFloor()
 {

@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "Door.h"
 #include "LaserReceptor.h"
+#include "Player.h"
 #include <vector>
 
 class LaserManager
@@ -20,7 +21,9 @@ private:
 	Ogre::SceneManager*		mManger;
 	Physics*				mPhysicsManager;
 	Door*					mDoor;
+	int						next;
 public:
+	bool					mShutdown;
 	LaserManager(Ogre::Vector3 StartPos, Ogre::Vector3 dir, 
 		Ogre::Vector3 RecptorPos,Ogre::Vector3 Recptordir,
 		Ogre::SceneManager* manager, Physics* physicsManager, Door* thedoor);

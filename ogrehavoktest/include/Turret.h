@@ -14,6 +14,7 @@ private:
 	bool					mPlayerInSight;
 	int						mKillTimer;
 public:
+	bool					mShutdown;
 	Turret(Ogre::Vector3 Pos, Ogre::SceneManager* manager, Physics* physicsManager);
 	~Turret();
 	void SetPlayerPos(Ogre::Vector3 PlayerPos);

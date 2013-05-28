@@ -309,7 +309,10 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
    // mCameraMan->injectKeyDown(arg);
     return true;
 }
-
+void BaseApplication::Shutdown()
+{
+	mShutDown = true;
+}
 bool BaseApplication::keyReleased( const OIS::KeyEvent &arg )
 {
    // mCameraMan->injectKeyUp(arg);

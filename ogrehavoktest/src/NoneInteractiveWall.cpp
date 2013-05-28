@@ -9,6 +9,7 @@ NoneInteractiveWall::NoneInteractiveWall(Ogre::Vector3 Pos, Ogre::Vector3 size,P
 			rotation)
 {
 	Body->setUserData(hkUlong(this));
+	ObjectEnt->setMaterialName("Examples/Chrome");
 }
 NoneInteractiveWall::~NoneInteractiveWall()
 {

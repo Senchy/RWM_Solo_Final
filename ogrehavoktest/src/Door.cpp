@@ -8,7 +8,7 @@ Door::Door(Ogre::Vector3 Pos,Physics * physics, Ogre::SceneManager * manager, fl
 					physics,
 					manager)
 					,mIter(0)
-					,mOpen(false)
+					,mOpen(true)
 {
 	mOrintation = Ogre::Quaternion(Ogre::Radian(Ogre::Degree(rotation)), Ogre::Vector3(0,1,0));
 	hkVector4 HalfSize( mSize.x / 2.0, mSize.y / 2.0, mSize.z / 2.0);
