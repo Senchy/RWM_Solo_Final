@@ -8,7 +8,7 @@ class NoneInteractiveWall : public Wall
 {
 private:
 public:
-	NoneInteractiveWall(Ogre::Vector3 Pos);
+	NoneInteractiveWall(Ogre::Vector3 Pos, Ogre::Vector3 size,Physics * physics, Ogre::SceneManager * manager, float rotation);
 	~NoneInteractiveWall();
 };
 #endif

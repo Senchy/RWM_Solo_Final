@@ -3,7 +3,7 @@
 
 LaserReceptor::LaserReceptor(Ogre::Vector3 PosStart,Ogre::Vector3 direction,Ogre::SceneManager* manager, Physics* physicsManager)
 	:StaticObject(PosStart, 
-					Ogre::Vector3(1,1,1), 
+					Ogre::Vector3(20,20,20), 
 					"cube.mesh", 
 					physicsManager,
 					manager),

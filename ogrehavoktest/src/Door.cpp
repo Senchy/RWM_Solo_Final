@@ -8,6 +8,7 @@ Door::Door(Ogre::Vector3 Pos,Physics * physics, Ogre::SceneManager * manager, fl
 					physics,
 					manager)
 					,mIter(0)
+					,mOpen(false)
 {
 	mOrintation = Ogre::Quaternion(Ogre::Radian(Ogre::Degree(rotation)), Ogre::Vector3(0,1,0));
 	hkVector4 HalfSize( mSize.x / 2.0, mSize.y / 2.0, mSize.z / 2.0);
@@ -45,14 +46,21 @@ Door::Door(Ogre::Vector3 Pos,Physics * physics, Ogre::SceneManager * manager, fl
 	Ogre::Quaternion UpdateOrintation(Ogre::Radian(GetBodyAngle.getAngle()), Ogre::Vector3(GetrotationAxis(0),GetrotationAxis(1),GetrotationAxis(2)));
 	ObjectNode->setOrientation(UpdateOrintation);
 }
+void Door::Update()
+{
+	if(mOpen)
+	{
+		if(mIter < 160)
+		{
+			Body->setPosition(hkVector4( Body->getPosition()(0), Body->getPosition()(1) + 0.5, Body->getPosition()(2)));
+			ObjectNode->setPosition(Ogre::Vector3(Body->getPosition()(0), Body->getPosition()(1),Body->getPosition()(2)));
+			mIter++;
+		}
+	}
+}
 void Door::OpenDoor()
 {
-	if(mIter < 160)
-	{
-		Body->setPosition(hkVector4( Body->getPosition()(0), Body->getPosition()(1) + 0.5, Body->getPosition()(2)));
-		ObjectNode->setPosition(Ogre::Vector3(Body->getPosition()(0), Body->getPosition()(1),Body->getPosition()(2)));
-		mIter++;
-	}
+	mOpen = true;
 }
 Door::~Door()
 {

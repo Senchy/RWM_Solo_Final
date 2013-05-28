@@ -47,27 +47,27 @@ void PortalGun::Update()
 bool PortalGun::ShootGun(int WhichPortal)
 {
 	hkpWorldRayCastInput ray;
-	ray.m_from =  hkVector4(mCamera->getPosition().x + mCamera->getDirection().x * 10,
-							mCamera->getPosition().y + mCamera->getDirection().y * 10, 
-							mCamera->getPosition().z + mCamera->getDirection().z * 10);
-    ray.m_to = hkVector4(mCamera->getPosition().x + mCamera->getDirection().x * 1010,
-						mCamera->getPosition().y + mCamera->getDirection().y  * 1010,
-						mCamera->getPosition().z + mCamera->getDirection().z * 1010);
+	ray.m_from =  hkVector4(mCamera->getPosition().x + mCamera->getDirection().x * 50,
+							mCamera->getPosition().y + mCamera->getDirection().y * 50, 
+							mCamera->getPosition().z + mCamera->getDirection().z * 50);
+    ray.m_to = hkVector4(mCamera->getPosition().x + mCamera->getDirection().x * 2050,
+						mCamera->getPosition().y + mCamera->getDirection().y  * 2050,
+						mCamera->getPosition().z + mCamera->getDirection().z * 2050);
 	hkpWorldRayCastOutput OutPut;
 	mPhysicsManager->GetPhysicsWorld()->castRay(ray,OutPut);
 	if(OutPut.m_hitFraction < 1.0f)
 	{
 		const hkpCollidable* col = OutPut.m_rootCollidable;
 		hkpRigidBody* body = hkpGetRigidBody(col);
-		Wall* TryWall = 0;
-		Floor* TryFloor = 0;
-		TryWall = dynamic_cast<Wall*> ((BaseObject *)body->getUserData());
-		TryFloor = dynamic_cast<Floor*> ((BaseObject *)body->getUserData());
+		InteractiveWall* TryWall = 0;
+		InteractiveFloor* TryFloor = 0;
+		TryWall = dynamic_cast<InteractiveWall*> ((BaseObject *)body->getUserData());
+		TryFloor = dynamic_cast<InteractiveFloor*> ((BaseObject *)body->getUserData());
 		if(TryFloor !=0 || TryWall != 0)
 		{
-			mPortals[WhichPortal]->SetPosition(Ogre::Vector3(mCamera->getPosition().x + (mCamera->getDirection().x * 10) + (mCamera->getDirection().x *( 1000 * OutPut.m_hitFraction)) ,
-													mCamera->getPosition().y + (mCamera->getDirection().y * 10) + (mCamera->getDirection().y *( 1000 * OutPut.m_hitFraction))  ,
-													mCamera->getPosition().z + (mCamera->getDirection().z * 10) + (mCamera->getDirection().z *( 1000 * OutPut.m_hitFraction))),
+			mPortals[WhichPortal]->SetPosition(Ogre::Vector3(mCamera->getPosition().x + (mCamera->getDirection().x * 50) + (mCamera->getDirection().x *( 2000 * OutPut.m_hitFraction)) ,
+													mCamera->getPosition().y + (mCamera->getDirection().y * 50) + (mCamera->getDirection().y *( 2000 * OutPut.m_hitFraction))  ,
+													mCamera->getPosition().z + (mCamera->getDirection().z * 50) + (mCamera->getDirection().z *( 2000 * OutPut.m_hitFraction))),
 										Ogre::Vector3(OutPut.m_normal(0),OutPut.m_normal(1),OutPut.m_normal(2)));
 			return true;
 		}

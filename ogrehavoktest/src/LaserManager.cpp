@@ -4,10 +4,11 @@
 
 LaserManager::LaserManager(Ogre::Vector3 StartPos, Ogre::Vector3 dir, 
 	Ogre::Vector3 RecptorPos, Ogre::Vector3 Recptordir,
-	Ogre::SceneManager* manager, Physics* physicsManager) 
+	Ogre::SceneManager* manager, Physics* physicsManager, Door* thedoor) 
 	:
 	 mManger(manager)
 	,mPhysicsManager(physicsManager)
+	,mDoor(thedoor)
 {
 	mLaser.push_back(new Laser(StartPos, dir, manager, physicsManager));
 	mReceptor = new LaserReceptor(RecptorPos, Recptordir, manager, physicsManager);
@@ -81,5 +82,9 @@ void LaserManager::Update()
 		Laser* distructionlaser = mLaser.at(mLaser.size() - 1);
 		distructionlaser->~Laser();
 		mLaser.pop_back();
+	}
+	if(mReceptor->IsHit())
+	{
+		mDoor->OpenDoor();
 	}
 }

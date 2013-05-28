@@ -137,6 +137,8 @@
     <ClCompile Include="src\Laser.cpp" />
     <ClCompile Include="src\LaserManager.cpp" />
     <ClCompile Include="src\LaserReceptor.cpp" />
+    <ClCompile Include="src\NoneInteractiveFloor.cpp" />
+    <ClCompile Include="src\NoneInteractiveWall.cpp" />
     <ClCompile Include="src\ogrehavoktest.cpp" />
     <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Player.cpp" />
@@ -170,6 +172,8 @@
     <ClInclude Include="include\Laser.h" />
     <ClInclude Include="include\LaserManager.h" />
     <ClInclude Include="include\LaserReceptor.h" />
+    <ClInclude Include="include\NoneInteractiveFloor.h" />
+    <ClInclude Include="include\NoneInteractiveWall.h" />
     <ClInclude Include="include\ogrehavoktest.h" />
     <ClInclude Include="include\Physics.h" />
     <ClInclude Include="include\Player.h" />

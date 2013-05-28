@@ -7,6 +7,7 @@
 #include "Laser.h"
 #include "Create.h"
 #include "Portal.h"
+#include "Door.h"
 #include "LaserReceptor.h"
 #include <vector>
 
@@ -18,10 +19,11 @@ private:
 	LaserReceptor*			mReceptor;
 	Ogre::SceneManager*		mManger;
 	Physics*				mPhysicsManager;
+	Door*					mDoor;
 public:
 	LaserManager(Ogre::Vector3 StartPos, Ogre::Vector3 dir, 
 		Ogre::Vector3 RecptorPos,Ogre::Vector3 Recptordir,
-		Ogre::SceneManager* manager, Physics* physicsManager);
+		Ogre::SceneManager* manager, Physics* physicsManager, Door* thedoor);
 	~LaserManager();
 	void Update();
 };

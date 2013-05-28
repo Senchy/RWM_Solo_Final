@@ -9,9 +9,11 @@ class Door : public StaticObject
 {
 private:
 	int			mIter;
+	bool		mOpen;
 public:
 	Door(Ogre::Vector3 Pos, Physics * physics, Ogre::SceneManager * manager, float rotation);
 	~Door();
+	void Update();
 	void OpenDoor();
 };
 #endif

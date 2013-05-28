@@ -47,8 +47,7 @@ void ogrehavoktest::createScene(void)
     light->setPosition(20,500,50);
 
 	physics.SetUp(); //perform havok initialisation stuff
-	mLasers.push_back(new LaserManager(Ogre::Vector3(0,20,300), Ogre::Vector3(0,0,-1),Ogre::Vector3(0,80,300), Ogre::Vector3(0,0,0),mSceneMgr,&physics));
-	mPlayer = new Player(Ogre::Vector3(-100,20,0),mSceneMgr,&physics,mKeyboard,mCamera,mMouse);
+	mPlayer = new Player(Ogre::Vector3(0,20,393),mSceneMgr,&physics,mKeyboard,mCamera,mMouse);
 	mPortals[0] = new Portal(Ogre::Vector3(-1000,-1000,-1000),&physics, mSceneMgr);
 	mPortals[1] = new Portal(Ogre::Vector3(-1000,-1000,-1000),&physics, mSceneMgr);
 	mPlayer->INITPortalGun(mPortals);
@@ -61,18 +60,93 @@ void ogrehavoktest::createScene(void)
 
 	mStaticObjects.push_back(mPortals[0]);
 	mStaticObjects.push_back(mPortals[1]);
-	mStaticObjects.push_back( new Floor(Ogre::Vector3(0,0,0), Ogre::Vector3(1000,0,600),&physics, mSceneMgr));
-	mStaticObjects.push_back( new Floor(Ogre::Vector3(0,160,0), Ogre::Vector3(1000,0,600),&physics, mSceneMgr));
-	mStaticObjects.push_back(new Wall(Ogre::Vector3(0,80,300), Ogre::Vector3(1000,160,0),&physics, mSceneMgr, 0));
-	mStaticObjects.push_back(new Wall(Ogre::Vector3(0,80,-300), Ogre::Vector3(1000,160,0),&physics, mSceneMgr, 0));
-	mStaticObjects.push_back(new Wall(Ogre::Vector3(500,80,0), Ogre::Vector3(600,160,0),&physics, mSceneMgr, 90));
-	mStaticObjects.push_back(new Wall(Ogre::Vector3(-500,80,0), Ogre::Vector3(600,160,0),&physics, mSceneMgr, 90));
-	Catapult* newCatapult = new Catapult(Ogre::Vector3(-200,0,40),&physics, mSceneMgr);
-	mCatapult.push_back(newCatapult);
-	mStaticObjects.push_back(newCatapult);
-	Door* newDoors = new Door(Ogre::Vector3(-450,40,0),&physics, mSceneMgr, 90);
+	
+	Door* newDoors = new Door(Ogre::Vector3(0,40,493),&physics, mSceneMgr, 0);
 	mDoors.push_back(newDoors);
 	mStaticObjects.push_back(newDoors);
+
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(-100,80,0), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 90));
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(0,0,0), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(0,80,-100), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(0,80,100), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+
+	
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(196.5,80,-100), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(196.5,80,100), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(196.5,-78,-100), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(196.5,-78,100), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(96.5,-78,0), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 90));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(293,-78,0), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 90));
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(196.5,-150,0), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(393,0,0), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(393,80,-100), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(393,80,100), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(589.5,0,0), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(589.5,80,-100), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(589.5,80,100), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(786,0,0), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(786,80,-100), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(982.5,0,0), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(982.5,80,-100), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(1179,-150,0), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(1279,80,0), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 90));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(1179,80,-100), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(1179,80,100), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(1179,-78,-100), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(1179,-78,100), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(1079,-78,0), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 90));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(1279,-78,0), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 90));
+
+
+
+	
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(-100,80,196.5), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 90));
+	mLasers.push_back(new LaserManager(Ogre::Vector3(-90,20,200), Ogre::Vector3(1,0,0),Ogre::Vector3(393,30,110), Ogre::Vector3(0,0,0),mSceneMgr,&physics,mDoors[0]));
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(0,0,196.5), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(196.5,0,196.5), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(393,0,196.5), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(589.5,0,196.5), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(786,0,196.5), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(982.5,0,196.5), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(1079,80,196.5), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 90));
+	
+
+
+	
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(-100,80,393), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 90));
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(0,0,393), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	
+
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(-64,80,493), Ogre::Vector3(72,160,0),&physics, mSceneMgr, 0));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(64,80,493), Ogre::Vector3(72,160,0),&physics, mSceneMgr, 0));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(0,120,493), Ogre::Vector3(60,90,0),&physics, mSceneMgr, 0));
+
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(196.5,0,393), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(196.5,80,493), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(393,0,393), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(393,80,493), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(589.5,0,393), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(589.5,80,493), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(786,0,393), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(786,80,493), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+
+	mStaticObjects.push_back( new InteractiveFloor(Ogre::Vector3(982.5,0,393), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(982.5,80,493), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 0));
+	mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(1079,80,393), Ogre::Vector3(200,160,0),&physics, mSceneMgr, 90));
+
+	mStaticObjects.push_back( new NoneInteractiveFloor(Ogre::Vector3(0,160,0), Ogre::Vector3(200,0,200),&physics, mSceneMgr));
+	//mStaticObjects.push_back(new InteractiveWall(Ogre::Vector3(-200,80,0), Ogre::Vector3(600,160,0),&physics, mSceneMgr, 90));
+	//Catapult* newCatapult = new Catapult(Ogre::Vector3(-200,0,40),&physics, mSceneMgr);
+	//mCatapult.push_back(newCatapult);
+	//mStaticObjects.push_back(newCatapult);
 
 	mSceneMgr->setSkyDome(true, "Examples/CloudySky",5,8);
 	

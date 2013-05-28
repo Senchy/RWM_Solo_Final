@@ -8,7 +8,7 @@ class NoneInteractiveFloor : public Floor
 {
 private:
 public:
-	NoneInteractiveFloor(Ogre::Vector3 Pos);
+	NoneInteractiveFloor(Ogre::Vector3 Pos, Ogre::Vector3 size, Physics * physics, Ogre::SceneManager * manager);
 	~NoneInteractiveFloor();
 };
 #endif
