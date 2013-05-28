@@ -47,7 +47,7 @@ void ogrehavoktest::createScene(void)
     light->setPosition(20,500,50);
 
 	physics.SetUp(); //perform havok initialisation stuff
-	mPlayer = new Player(Ogre::Vector3(0,20,393),mSceneMgr,&physics,mKeyboard,mCamera,mMouse);
+	mPlayer = new Player(Ogre::Vector3(10,50,1470.5),mSceneMgr,&physics,mKeyboard,mCamera,mMouse);
 	mPortals[0] = new Portal(Ogre::Vector3(-1000,-1000,-1000),&physics, mSceneMgr);
 	mPortals[1] = new Portal(Ogre::Vector3(-1000,-1000,-1000),&physics, mSceneMgr);
 	mPlayer->INITPortalGun(mPortals);

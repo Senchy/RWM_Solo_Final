@@ -22,7 +22,6 @@ private:
 	float					mSpeed;
 	hkReal					mJumpForce;
 	float					mCameraOffset;
-	hkpRigidBody*			mTopBody;
 	PortalGun *				mGun;
 	hkpRigidBody *			mBOX;
 public:

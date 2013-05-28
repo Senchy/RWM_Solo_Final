@@ -16,12 +16,12 @@ Portal::Portal(Ogre::Vector3 Pos,Physics * physics, Ogre::SceneManager * manager
 	{
 		ObjectEnt->setMaterialName("Template/Red");
 	}
-	hkpCylinderShape* BodyShape = new hkpCylinderShape(hkVector4(0,-0.3,0),hkVector4(0,0.3,0),24.0f);
+	hkpCylinderShape* BodyShape = new hkpCylinderShape(hkVector4(0,-0.5,0),hkVector4(0,0.5,0),24.0f);
 	hkpRigidBodyCinfo						PortalInfo;
 	PortalInfo.m_mass =						100.0f;
 	hkMassProperties massProperties;
-	hkpInertiaTensorComputer::computeCylinderVolumeMassProperties( hkVector4(0,-0.3,0),
-																	hkVector4(0,0.3,0),
+	hkpInertiaTensorComputer::computeCylinderVolumeMassProperties( hkVector4(0,-0.5,0),
+																	hkVector4(0,0.5,0),
 																	24.0f,
 																	PortalInfo.m_mass,
 																	massProperties );
@@ -91,11 +91,11 @@ bool Portal::Transport(Ogre::Vector3 &Pos, Ogre::Vector3 &Velocity, Ogre::Quater
 	{
 		if(mDirection.y < -0.7)
 		{
-			Pos = mPosition + (mDirection * (3 * mRadius));
+			Pos = mPosition + (mDirection * (1.5 * mRadius));
 		}
 		else
 		{
-			Pos = mPosition + (mDirection * mRadius);
+			Pos = mPosition + (mDirection *  (1.5 * mRadius));
 		}
 		Velocity = mDirection * Velocity.length();
 		return true;

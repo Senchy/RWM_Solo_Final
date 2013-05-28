@@ -86,7 +86,7 @@ void Turret::Update()
 		mRotateValue += angle.valueRadians();
 		Body->setRotation(hkQuaternion(hkVector4(0,1,0),mRotateValue));
 		mKillTimer++;
-		if(mKillTimer > 100)
+		if(mKillTimer > 800)
 		{
 			mShutdown = true;
 			//theplayer->OnDeath();

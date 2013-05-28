@@ -12,7 +12,7 @@ Player::Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* phy
 		mMouse(Mouse),
 		mCamera(camera),
 		mJumpForce(1000.0f),
-		mCameraOffset(40),
+		mCameraOffset(30),
 		mFireTimeOut(200),
 		mMoveTimeOut(30),
 		mPickUpTimeOut(30),
@@ -23,30 +23,8 @@ Player::Player(Ogre::Vector3 position, Ogre::SceneManager* manager, Physics* phy
 {
 	mGun = new PortalGun(mManager,mPhysicsManager,mCamera);
 
-	hkpCylinderShape* Hbox =						new hkpCylinderShape(hkVector4(0,10,0),hkVector4(0,-10,0),10);
-	Hbox->setRadius(0.0f);
-
-	hkpRigidBodyCinfo						TopBodyInfo;
-	TopBodyInfo.m_mass =					100.0f;
-	hkMassProperties TopmassProperties;
-	hkpInertiaTensorComputer::computeCylinderVolumeMassProperties(
-		hkVector4(0,10,0),hkVector4(0,-10,0),10, TopBodyInfo.m_mass, TopmassProperties);
-	TopBodyInfo.m_mass =					TopmassProperties.m_mass;
-	TopBodyInfo.m_centerOfMass =			TopmassProperties.m_centerOfMass;
-	TopBodyInfo.m_inertiaTensor =			TopmassProperties.m_inertiaTensor;
-	TopBodyInfo.m_solverDeactivation =		TopBodyInfo.SOLVER_DEACTIVATION_MEDIUM;
-	TopBodyInfo.m_shape =					Hbox;
-	TopBodyInfo.m_restitution =				0.0f;
-	TopBodyInfo.m_qualityType =				HK_COLLIDABLE_QUALITY_MOVING;
-	TopBodyInfo.m_motionType =				hkpMotion::MOTION_BOX_INERTIA;
-	TopBodyInfo.m_rotation =				hkQuaternion(mOrintation.x, mOrintation.y, mOrintation.z, mOrintation.w);
-	TopBodyInfo.m_position = 				hkVector4(mPosition.x,mPosition.y + 30,mPosition.z);
-	mTopBody =								new hkpRigidBody(TopBodyInfo);
-	mTopBody->setUserData(hkUlong(this));
-	mPhysicsManager->GetPhysicsWorld()->addEntity(mTopBody);
-
-	const hkReal radius =					10.0f;
-	const hkReal sphereMass =				200.0f;
+	const hkReal radius =					14.0f;
+	const hkReal sphereMass =				150.0f;
 	hkpRigidBodyCinfo						ObjectInfo;
 	hkMassProperties						massProperties;
 	hkpInertiaTensorComputer::computeSphereVolumeMassProperties(
@@ -82,12 +60,6 @@ void Player::Update()
 	DynamicObject::Update();
 	mGun->Update();
 	CheckIfOnGround();
-	mTopBody->setRotation(hkQuaternion(hkVector4(0,1,0),hkReal(0)));
-	mTopBody->setPosition(hkVector4(Body->getPosition()(0),mTopBody->getPosition()(1),Body->getPosition()(2)));
-	if(mTopBody->getPosition()(1) < Body->getPosition()(1))
-	{
-		mTopBody->setPosition(hkVector4(Body->getPosition()(0),Body->getPosition()(1) + 30,Body->getPosition()(2)));
-	}
 	Ogre::Vector3 MoveDir = mCamera->getDirection();
 	MoveDir = Ogre::Vector3(MoveDir.x,0, MoveDir.z);
 	MoveDir = MoveDir.normalisedCopy();
@@ -202,8 +174,8 @@ void Player::Update()
 void Player::CheckIfOnGround()
 {
 	hkpWorldRayCastInput ray;
-	ray.m_from = hkVector4(ObjectNode->getPosition().x,ObjectNode->getPosition().y- 5,ObjectNode->getPosition().z);
-    ray.m_to = hkVector4(ObjectNode->getPosition().x,ObjectNode->getPosition().y - 12,ObjectNode->getPosition().z);
+	ray.m_from = hkVector4(ObjectNode->getPosition().x,ObjectNode->getPosition().y- 7,ObjectNode->getPosition().z);
+    ray.m_to = hkVector4(ObjectNode->getPosition().x,ObjectNode->getPosition().y - 16,ObjectNode->getPosition().z);
 	hkpWorldRayCastOutput OutPut;
 	mPhysicsManager->GetPhysicsWorld()->castRay(ray,OutPut);
 	if(OutPut.m_hitFraction < 1.0f)
